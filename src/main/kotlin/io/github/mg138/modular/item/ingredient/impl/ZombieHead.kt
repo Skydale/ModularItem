@@ -1,4 +1,4 @@
-package io.github.mg138.modular.item.ingredient.test
+package io.github.mg138.modular.item.ingredient.impl
 
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.stat.StatMap
@@ -14,7 +14,7 @@ class ZombieHead : Ingredient(
     Main.modId - "ingredient_zombie_head",
     BookItemSettings(false),
     FabricItemSettings(),
-    Items.SPIDER_EYE,
+    Items.ZOMBIE_HEAD,
     StatMap().apply {
         putStat(Preset.DamageTypes.DAMAGE_AQUA, StatRange(100.0, 200.0))
     }

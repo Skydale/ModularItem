@@ -1,4 +1,4 @@
-package io.github.mg138.modular.item.ingredient.test
+package io.github.mg138.modular.item.ingredient.impl
 
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.stat.StatMap
