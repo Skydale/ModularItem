@@ -1,6 +1,7 @@
 package io.github.mg138.modular.anvil.forge
 
 import io.github.mg138.modular.anvil.gui.AnvilInventory
+import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -26,6 +27,7 @@ object ForgeManager {
 
     private fun forge(
         player: ServerPlayerEntity,
+        hammerItemStack: ItemStack,
         inventory: AnvilInventory,
         modifier: Int,
         undo: Boolean
@@ -49,7 +51,7 @@ object ForgeManager {
             return ActionResult.PASS
         }
 
-        ProgressDisplay.show(player, inventory, new)
+        ProgressDisplay.show(player, hammerItemStack, inventory, new)
 
         if (new.first <= MIN || new.first >= MAX) {
             player.playSound(SoundEvents.BLOCK_ANVIL_DESTROY, SoundCategory.BLOCKS, 0.5F, 0.5F)
@@ -66,15 +68,15 @@ object ForgeManager {
         return ActionResult.PASS
     }
 
-    fun left(player: ServerPlayerEntity, inventory: AnvilInventory) =
-        forge(player, inventory, -400, false)
+    fun left(player: ServerPlayerEntity, hammerItemStack: ItemStack, inventory: AnvilInventory) =
+        forge(player, hammerItemStack, inventory, -400, false)
 
-    fun leftUndo(player: ServerPlayerEntity, inventory: AnvilInventory) =
-        forge(player, inventory, -400, true)
+    fun leftUndo(player: ServerPlayerEntity, hammerItemStack: ItemStack, inventory: AnvilInventory) =
+        forge(player, hammerItemStack, inventory, -400, true)
 
-    fun right(player: ServerPlayerEntity, inventory: AnvilInventory) =
-        forge(player, inventory, 600, false)
+    fun right(player: ServerPlayerEntity, hammerItemStack: ItemStack, inventory: AnvilInventory) =
+        forge(player, hammerItemStack, inventory, 600, false)
 
-    fun rightUndo(player: ServerPlayerEntity, inventory: AnvilInventory) =
-        forge(player, inventory, 600, true)
+    fun rightUndo(player: ServerPlayerEntity, hammerItemStack: ItemStack, inventory: AnvilInventory) =
+        forge(player, hammerItemStack, inventory, 600, true)
 }

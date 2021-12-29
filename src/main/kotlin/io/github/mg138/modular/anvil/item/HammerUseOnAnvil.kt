@@ -53,12 +53,13 @@ object HammerUseOnAnvil {
         val inventory = block.inventory(player) ?: return ActionResult.PASS
         if (!inventory.validRecipe()) return ActionResult.PASS
 
-        if (player.mainHandStack.item !is HammerItem) return ActionResult.PASS
+        val hammerItemStack = player.mainHandStack
+        if (hammerItemStack.item !is HammerItem) return ActionResult.PASS
 
         val result = if (player.isSneaking) {
-            ForgeManager.leftUndo(player, inventory)
+            ForgeManager.leftUndo(player, hammerItemStack, inventory)
         } else {
-            ForgeManager.left(player, inventory)
+            ForgeManager.left(player, hammerItemStack, inventory)
         }
         processResult(player, inventory, result)
 
@@ -78,12 +79,13 @@ object HammerUseOnAnvil {
         val inventory = block.inventory(player) ?: return ActionResult.PASS
         if (!inventory.validRecipe()) return ActionResult.PASS
 
-        if (player.mainHandStack.item !is HammerItem) return ActionResult.PASS
+        val hammerItemStack = player.mainHandStack
+        if (hammerItemStack.item !is HammerItem) return ActionResult.PASS
 
         val result = if (player.isSneaking) {
-            ForgeManager.rightUndo(player, inventory)
+            ForgeManager.rightUndo(player, hammerItemStack, inventory)
         } else {
-            ForgeManager.right(player, inventory)
+            ForgeManager.right(player, hammerItemStack, inventory)
         }
         processResult(player, inventory, result)
 

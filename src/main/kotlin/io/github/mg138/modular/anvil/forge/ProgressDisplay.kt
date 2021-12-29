@@ -5,6 +5,7 @@ import io.github.mg138.modular.anvil.gui.AnvilInventory
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.minecraft.entity.boss.BossBar
 import net.minecraft.entity.boss.ServerBossBar
+import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
@@ -22,17 +23,18 @@ object ProgressDisplay {
         return stringBuilder.toString()
     }
 
-    private val map: MutableMap<ServerPlayerEntity, Pair<ServerBossBar, Ref.IntRef>> = mutableMapOf()
+    private val map: MutableMap<ServerPlayerEntity, Triple<ServerBossBar, ItemStack?, Ref.IntRef>> = mutableMapOf()
 
     fun register() {
         ServerTickEvents.END_SERVER_TICK.register {
             val toRemove: MutableList<ServerPlayerEntity> = mutableListOf()
 
-            map.forEach { (player, pair) ->
-                val age = pair.second.apply { element++ }
+            map.forEach { (player, triple) ->
+                val age = triple.third.apply { element++ }
 
                 if (age.element >= 60) {
-                    pair.first.clearPlayers()
+                    triple.second?.removeCustomName()
+                    triple.first.clearPlayers()
                     toRemove += player
                 }
             }
@@ -81,7 +83,7 @@ object ProgressDisplay {
 
     private val actionBar = "${AnvilGui.anvilKey}.message.actionBar"
 
-    fun show(player: ServerPlayerEntity, inventory: AnvilInventory, pair: Pair<Int, Int>) {
+    fun show(player: ServerPlayerEntity, hammerItemStack: ItemStack?, inventory: AnvilInventory, pair: Pair<Int, Int>) {
         val old = map[player]
         val (accuracy, progress) = pair
 
@@ -109,6 +111,8 @@ object ProgressDisplay {
             ), true
         )
 
-        map[player] = Pair(bossBar, Ref.IntRef().apply { element = 0 })
+
+
+        map[player] = Triple(bossBar, hammerItemStack, Ref.IntRef().apply { element = 0 })
     }
 }
