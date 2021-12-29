@@ -4,7 +4,8 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.suggestion.SuggestionProvider
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import io.github.mg138.modular.item.ingredient.ModularIngredientManager
+import io.github.mg138.modular.item.ingredient.IngredientManager
+import io.github.mg138.modular.item.ingredient.modular.ModularIngredientManager
 import net.minecraft.server.command.ServerCommandSource
 import java.util.concurrent.CompletableFuture
 
@@ -13,7 +14,7 @@ object IngredientSuggestion : SuggestionProvider<ServerCommandSource> {
         context: CommandContext<ServerCommandSource>?,
         builder: SuggestionsBuilder
     ): CompletableFuture<Suggestions> {
-        ModularIngredientManager.ingredients
+        IngredientManager.ingredients
             .forEach { builder.suggest(it.id.toString()) }
         return builder.buildFuture()
     }

@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.LiteralText
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
@@ -16,7 +15,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import kotlin.math.abs
-import kotlin.math.roundToInt
 
 @Suppress("UNUSED")
 object HammerUseOnAnvil {
@@ -26,7 +24,7 @@ object HammerUseOnAnvil {
 
             val quality = abs(ForgeManager.MAX - abs((2 * accuracy) - ForgeManager.MAX))
 
-            player.inventory.offerOrDrop(inventory.output().makeItemStack(listOf(Quality)).apply {
+            player.inventory.offerOrDrop(inventory.craft(listOf(Quality)).apply {
                 orCreateNbt.putInt(Quality.qualityKey, quality)
                 player.sendMessage(Quality.lore(this), false)
             })

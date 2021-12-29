@@ -1,9 +1,8 @@
-package io.github.mg138.modular.item
+package io.github.mg138.modular.item.modular
 
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.item.StatedItem
-import io.github.mg138.bookshelf.stat.data.StatMap
-import io.github.mg138.modular.item.util.ModularItemUtil
+import io.github.mg138.modular.item.modular.util.ModularItemUtil
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -17,13 +16,7 @@ abstract class ModularStatedItem(
     bookItemSettings: BookItemSettings,
     settings: Settings, vanillaItem: Item
 ) : ModularItem(id, bookItemSettings, settings, vanillaItem), StatedItem {
-    override fun getStatMap(itemStack: ItemStack?): StatMap {
-        val nbt = itemStack?.orCreateNbt ?: return StatMap()
-
-        val modularItemNbt = nbt.getCompound(MODULAR_ITEM_KEY)
-
-        return ModularItemUtil.getStatMap(this, itemStack, modularItemNbt)
-    }
+    override fun getStatMap(itemStack: ItemStack?) = ModularItemUtil.getStatMap(this, itemStack)
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         tooltip.addAll(getStatMap(stack).lores())

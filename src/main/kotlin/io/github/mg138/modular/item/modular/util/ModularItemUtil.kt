@@ -1,19 +1,19 @@
-package io.github.mg138.modular.item.util
+package io.github.mg138.modular.item.modular.util
 
 import io.github.mg138.bookshelf.stat.data.StatMap
-import io.github.mg138.modular.item.ModularItem
-import io.github.mg138.modular.item.ingredient.ModularIngredient
-import io.github.mg138.modular.item.ingredient.ModularStatedIngredient
+import io.github.mg138.modular.item.ingredient.Ingredient
+import io.github.mg138.modular.item.ingredient.IngredientManager
+import io.github.mg138.modular.item.ingredient.StatedIngredient
+import io.github.mg138.modular.item.modular.ModularItem
 import net.fabricmc.fabric.api.util.NbtType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 object ModularItemUtil {
-    private val cacheIngredients: MutableMap<NbtList, List<ModularIngredient>> = mutableMapOf()
+    private val cacheIngredients: MutableMap<NbtList, List<Ingredient>> = mutableMapOf()
     private val cacheStatMap: MutableMap<ItemStack, StatMap> = mutableMapOf()
 
     fun getModularItemNbt(itemStack: ItemStack?) =
@@ -22,17 +22,17 @@ object ModularItemUtil {
     fun getIngredientNbt(modularItemNbt: NbtCompound) =
         modularItemNbt.getList(ModularItem.INGREDIENTS_KEY, NbtType.STRING)
 
-    fun getIngredients(modularItemNbt: NbtCompound): List<ModularIngredient> {
+    fun getIngredients(modularItemNbt: NbtCompound): List<Ingredient> {
         val ingredientsNbt = getIngredientNbt(modularItemNbt)
 
         return cacheIngredients.getOrPut(ingredientsNbt) {
-            ingredientsNbt.map { Identifier(it.asString()) }
-                .map { Registry.ITEM.get(it) }
-                .filterIsInstance<ModularIngredient>()
+            ingredientsNbt
+                .map { Identifier(it.asString()) }
+                .mapNotNull { IngredientManager[it] }
         }
     }
 
-    fun getIngredients(itemStack: ItemStack?): List<ModularIngredient> {
+    fun getIngredients(itemStack: ItemStack?): List<Ingredient> {
         val modularItemNbt = getModularItemNbt(itemStack) ?: return emptyList()
 
         return getIngredients(modularItemNbt)
@@ -44,10 +44,10 @@ object ModularItemUtil {
 
             StatMap().apply {
                 ingredients
-                    .filterIsInstance<ModularStatedIngredient>()
+                    .filterIsInstance<StatedIngredient>()
                     .sortedBy { it.updateStatPriority }
                     .forEach {
-                        it.updateStat(this, item, itemStack)
+                        it.updateStats(this, item, itemStack)
                     }
             }
         }

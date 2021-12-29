@@ -1,5 +1,6 @@
 package io.github.mg138.modular.anvil.forge
 
+import eu.pb4.sidebars.api.Sidebar
 import io.github.mg138.modular.anvil.gui.AnvilGui
 import io.github.mg138.modular.anvil.gui.AnvilInventory
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
@@ -33,7 +34,7 @@ object ProgressDisplay {
                 val age = triple.third.apply { element++ }
 
                 if (age.element >= 60) {
-                    triple.second?.removeCustomName()
+                    sideBar.removePlayer(player)
                     triple.first.clearPlayers()
                     toRemove += player
                 }
@@ -81,7 +82,18 @@ object ProgressDisplay {
         return start.append(left).append(pointer).append(right).append(end)
     }
 
-    private val actionBar = "${AnvilGui.anvilKey}.message.actionBar"
+    private const val actionBarKey = "${AnvilGui.anvilKey}.message.actionBar"
+
+    private const val sideBarKey = "${AnvilGui.anvilKey}.message.sideBar"
+    private val sideBarText = TranslatableText(sideBarKey)
+
+    private const val sideBarTitleKey = "$sideBarKey.title"
+    private val sideBarTitleText = TranslatableText(sideBarTitleKey)
+
+    private val sideBar = Sidebar(sideBarTitleText, Sidebar.Priority.HIGH).apply {
+        addLines(sideBarText)
+        show()
+    }
 
     fun show(player: ServerPlayerEntity, hammerItemStack: ItemStack?, inventory: AnvilInventory, pair: Pair<Int, Int>) {
         val old = map[player]
@@ -104,14 +116,14 @@ object ProgressDisplay {
 
         player.sendMessage(
             TranslatableText(
-                actionBar,
+                actionBarKey,
                 inventory.output().name
                     .copy()
                     .styled { it.withColor(Formatting.DARK_GREEN) }
             ), true
         )
 
-
+        sideBar.addPlayer(player)
 
         map[player] = Triple(bossBar, hammerItemStack, Ref.IntRef().apply { element = 0 })
     }

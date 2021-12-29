@@ -7,10 +7,12 @@ import io.github.mg138.modular.anvil.forge.ProgressDisplay
 import io.github.mg138.modular.anvil.item.HammerUseOnAnvil
 import io.github.mg138.modular.anvil.item.HammerItem
 import io.github.mg138.modular.command.MakeModularItemCmd
-import io.github.mg138.modular.item.TestModularItem
+import io.github.mg138.modular.item.modular.TestModularItem
 import io.github.mg138.modular.item.ingredient.impl.Quality
 import io.github.mg138.modular.item.ingredient.impl.SpiderEye
 import io.github.mg138.modular.item.ingredient.impl.ZombieHead
+import io.github.mg138.modular.item.ingredient.modular.impl.ModularSpiderEye
+import io.github.mg138.modular.item.ingredient.modular.impl.ModularZombieHead
 import net.fabricmc.api.DedicatedServerModInitializer
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -29,10 +31,12 @@ object Main : DedicatedServerModInitializer {
         HammerItem.register()
         HammerUseOnAnvil.register()
 
-        Quality.register()
-
         SpiderEye.register()
         ZombieHead.register()
+        Quality.register()
+
+        ModularSpiderEye.register()
+        ModularZombieHead.register()
 
         AnvilRecipe.register()
 

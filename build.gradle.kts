@@ -50,6 +50,9 @@ dependencies {
 
     modImplementation("me.lucko:fabric-permissions-api:0.1-SNAPSHOT")
 
+    val sidebarApiVersion: String by project
+    modImplementation("eu.pb4:sidebar-api:$sidebarApiVersion")
+
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 }
 tasks {

@@ -34,6 +34,6 @@
     "polymer": "*",
     "pony_bookshelf": ">=1.0.0",
     "sgui": "*",
-    "fabric-permissions-api-v0": "*"
+    "sidebar-api": "*"
   }
 }

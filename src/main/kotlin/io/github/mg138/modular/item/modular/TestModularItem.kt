@@ -1,12 +1,9 @@
-package io.github.mg138.modular.item
+package io.github.mg138.modular.item.modular
 
 import io.github.mg138.bookshelf.item.BookItemSettings
-import io.github.mg138.bookshelf.stat.data.StatMap
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
-import io.github.mg138.modular.item.util.ModularItemUtil
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 
 object TestModularItem : ModularStatedItem(

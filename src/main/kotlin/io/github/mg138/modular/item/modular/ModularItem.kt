@@ -1,10 +1,10 @@
-package io.github.mg138.modular.item
+package io.github.mg138.modular.item.modular
 
 import io.github.mg138.bookshelf.item.BookItem
 import io.github.mg138.bookshelf.item.BookItemSettings
-import io.github.mg138.bookshelf.item.BookStatedItem
-import io.github.mg138.modular.item.ingredient.ModularIngredient
-import io.github.mg138.modular.item.util.ModularItemUtil
+import io.github.mg138.modular.item.ingredient.Ingredient
+import io.github.mg138.modular.item.ingredient.modular.ModularIngredient
+import io.github.mg138.modular.item.modular.util.ModularItemUtil
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -12,7 +12,6 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
 
@@ -28,10 +27,10 @@ abstract class ModularItem(
 
     override fun register() {
         super.register()
-        ModularItemManager.items += this
+        ModularItemManager.add(this)
     }
 
-    fun makeItemStack(ingredients: Iterable<ModularIngredient>): ItemStack =
+    open fun makeItemStack(ingredients: Iterable<Ingredient>): ItemStack =
         this.defaultStack.apply {
             val nbt = orCreateNbt
             val modularItemNbt = NbtCompound()
@@ -45,7 +44,7 @@ abstract class ModularItem(
             nbt.put(MODULAR_ITEM_KEY, modularItemNbt)
         }
 
-    fun getIngredients(itemStack: ItemStack) = ModularItemUtil.getIngredients(itemStack)
+    open fun getIngredients(itemStack: ItemStack) = ModularItemUtil.getIngredients(itemStack)
 
     override fun appendTooltip(
         stack: ItemStack,
@@ -54,6 +53,6 @@ abstract class ModularItem(
         context: TooltipContext
     ) {
         super.appendTooltip(stack, world, tooltip, context)
-        tooltip.addAll(getIngredients(stack).map { it.lore(stack) })
+        this.getIngredients(stack).forEach { it.appendTooltip(stack, world, tooltip, context) }
     }
 }

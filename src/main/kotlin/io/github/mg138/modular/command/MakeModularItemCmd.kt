@@ -3,10 +3,12 @@ package io.github.mg138.modular.command
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
-import io.github.mg138.modular.item.ModularItem
 import io.github.mg138.modular.command.suggestion.IngredientSuggestion
 import io.github.mg138.modular.command.suggestion.ModularItemTypeSuggestion
-import io.github.mg138.modular.item.ingredient.ModularIngredient
+import io.github.mg138.modular.item.ingredient.IngredientManager
+import io.github.mg138.modular.item.ingredient.modular.ModularIngredient
+import io.github.mg138.modular.item.ingredient.modular.ModularIngredientManager
+import io.github.mg138.modular.item.modular.ModularItemManager
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 import net.minecraft.command.argument.IdentifierArgumentType
 import net.minecraft.server.command.CommandManager.argument
@@ -21,16 +23,10 @@ object MakeModularItemCmd {
         val source = context.source
         source.sendFeedback(LiteralText("Ingredients:"), false)
 
-        Registry.ITEM.forEach {
-            if (it is ModularIngredient) {
-                source.sendFeedback(
-                    LiteralText(it.id.toString())
-                        .append(" (Name: ")
-                        .append(it.name)
-                        .append(") "),
-                    false
-                )
-            }
+        IngredientManager.ingredients.forEach {
+            source.sendFeedback(
+                LiteralText(it.id.toString()), false
+            )
         }
 
         return Command.SINGLE_SUCCESS
@@ -38,14 +34,14 @@ object MakeModularItemCmd {
 
     private fun makeModularItem(context: CommandContext<ServerCommandSource>): Int {
         val player = context.source.player
-        val modularItem = Registry.ITEM.get(IdentifierArgumentType.getIdentifier(context, "type"))
-        if (modularItem !is ModularItem) {
-            return 0
-        }
-        val ingredients = StringArgumentType.getString(context, "ingredients").split(" ")
+
+        val modularItemArg = IdentifierArgumentType.getIdentifier(context, "type")
+        val modularItem = ModularItemManager[modularItemArg] ?: return 0
+
+        val ingredientArgs = StringArgumentType.getString(context, "ingredients").split(" ")
+        val ingredients = ingredientArgs
             .map { Identifier(it) }
-            .map { Registry.ITEM.get(it) }
-            .filterIsInstance<ModularIngredient>()
+            .mapNotNull { IngredientManager[it] }
 
         player.giveItemStack(modularItem.makeItemStack(ingredients))
 

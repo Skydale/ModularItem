@@ -4,11 +4,11 @@ import eu.pb4.sgui.virtual.FakeScreenHandler
 import io.github.mg138.modular.anvil.AnvilRecipe
 import io.github.mg138.modular.anvil.forge.ForgeManager
 import io.github.mg138.modular.anvil.forge.ProgressDisplay
-import io.github.mg138.modular.item.ModularItem
+import io.github.mg138.modular.item.ingredient.Ingredient
+import io.github.mg138.modular.item.modular.ModularItem
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.TranslatableText
 
 
 class AnvilInventory(val gui: AnvilGui, private val player: ServerPlayerEntity) :
@@ -22,8 +22,8 @@ class AnvilInventory(val gui: AnvilGui, private val player: ServerPlayerEntity) 
     private var validRecipe = false
 
     fun consumeItems() {
-        for (j in 0 until size()) {
-            getStack(j).count--
+        for (i in 0 until size()) {
+            getStack(i).count--
         }
     }
 
@@ -33,8 +33,18 @@ class AnvilInventory(val gui: AnvilGui, private val player: ServerPlayerEntity) 
 
     fun output() = output!!
 
-    private val toolTip = "${AnvilGui.anvilKey}.message.tooltip"
-    private val toolTipText = TranslatableText(toolTip)
+    fun craft(ingredients: Iterable<Ingredient> = listOf()): ItemStack {
+        val list: MutableList<Ingredient> = ingredients.toMutableList()
+        for (i in 0 until size()) {
+            val item = getStack(i).item
+
+            if (item is Ingredient) {
+                list.add(item)
+            }
+        }
+
+        return output().makeItemStack(list)
+    }
 
     fun update() {
         val world = player.world
@@ -52,8 +62,7 @@ class AnvilInventory(val gui: AnvilGui, private val player: ServerPlayerEntity) 
             }
             output = matchedOutput
 
-            ProgressDisplay.show(player, null, this, ForgeManager.DEFAULT)
-            player.sendMessage(toolTipText, false)
+            ProgressDisplay.show(player, player.mainHandStack, this, ForgeManager.DEFAULT)
         } else {
             ForgeManager.remove(player)
         }

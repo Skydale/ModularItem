@@ -1,39 +1,26 @@
 package io.github.mg138.modular.item.ingredient.impl
 
-import io.github.mg138.bookshelf.item.BookItemSettings
+import io.github.mg138.bookshelf.stat.data.MutableStats
 import io.github.mg138.bookshelf.stat.data.StatMap
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
-import io.github.mg138.modular.item.ingredient.ModularStatedIngredient
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import io.github.mg138.modular.item.ingredient.StatedIngredient
+import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.text.TextColor
 import net.minecraft.text.TranslatableText
+import net.minecraft.world.World
 
-object Quality : ModularStatedIngredient(
-    Main.modId - "quality_dummy_item",
-    BookItemSettings(false),
-    FabricItemSettings(),
-    Items.AIR
-) {
+object Quality : StatedIngredient {
+    override val id = Main.modId - "quality"
+
     const val qualityKey = "quality"
 
-    override val updateStatPriority = 100000000
-
-    private fun getQuality(itemStack: ItemStack) =
-        itemStack.orCreateNbt.getInt(qualityKey)
-
-    override fun updateStat(statMap: StatMap, item: Item, itemStack: ItemStack) {
-        val quality = getQuality(itemStack)
-        val m = quality / 100.0
-
-        statMap.forEach { (type, stat) ->
-            statMap[type] = stat * m
-        }
-    }
+    private fun getQuality(itemStack: ItemStack?) =
+        itemStack?.orCreateNbt?.getInt(qualityKey) ?: 0
 
     private fun color(accuracy: Int): TextColor {
         if (accuracy == 100) {
@@ -51,7 +38,20 @@ object Quality : ModularStatedIngredient(
         return TextColor.fromRgb(0xff5963)
     }
 
-    override fun lore(itemStack: ItemStack): TranslatableText {
+    override fun getStats(itemStack: ItemStack?) = StatMap.EMPTY
+
+    override val updateStatPriority = Int.MAX_VALUE
+
+    override fun updateStats(mutableStats: MutableStats, item: Item, itemStack: ItemStack) {
+        val quality = getQuality(itemStack)
+        val m = quality / 100.0
+
+        mutableStats.forEach { (type, stat) ->
+            mutableStats.putStat(type, stat * m)
+        }
+    }
+
+    override fun lore(itemStack: ItemStack?): Text {
         val quality = getQuality(itemStack)
 
         return TranslatableText(loreKey, LiteralText(quality.toString()).styled { it.withColor(color(quality)) })
