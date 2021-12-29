@@ -22,6 +22,7 @@ minecraft {}
 
 repositories {
     maven("https://maven.nucleoid.xyz")
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
     mavenCentral()
 }
 
@@ -42,9 +43,12 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
 
     val polymerVersion: String by project
-    modApi("eu.pb4:polymer:$polymerVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }
+    modImplementation("eu.pb4:polymer:$polymerVersion")
+
+    val sguiVersion: String by project
+    modImplementation("eu.pb4:sgui:$sguiVersion")
+
+    modImplementation("me.lucko:fabric-permissions-api:0.1-SNAPSHOT")
 
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 }

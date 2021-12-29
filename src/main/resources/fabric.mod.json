@@ -31,7 +31,9 @@
     "fabric-language-kotlin": ">=1.7.0+kotlin.1.6.0",
     "minecraft": "1.18.x",
     "java": ">=16",
-    "polymer": "0.2.0-beta.12+1.18.1",
-    "pony_bookshelf": "1.0.0"
+    "polymer": "*",
+    "pony_bookshelf": ">=1.0.0",
+    "sgui": "*",
+    "fabric-permissions-api-v0": "*"
   }
 }

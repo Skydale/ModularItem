@@ -8,7 +8,7 @@ import io.github.mg138.modular.item.ModularItemManager
 import net.minecraft.server.command.ServerCommandSource
 import java.util.concurrent.CompletableFuture
 
-object ModularItemTypeSuggestionProvider : SuggestionProvider<ServerCommandSource> {
+object ModularItemTypeSuggestion : SuggestionProvider<ServerCommandSource> {
     override fun getSuggestions(
         context: CommandContext<ServerCommandSource>?,
         builder: SuggestionsBuilder

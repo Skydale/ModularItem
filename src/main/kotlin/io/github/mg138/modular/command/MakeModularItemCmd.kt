@@ -4,9 +4,9 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
 import io.github.mg138.modular.item.ModularItem
-import io.github.mg138.modular.command.suggestion.IngredientSuggestionProvider
-import io.github.mg138.modular.command.suggestion.ModularItemTypeSuggestionProvider
-import io.github.mg138.modular.item.ingredient.Ingredient
+import io.github.mg138.modular.command.suggestion.IngredientSuggestion
+import io.github.mg138.modular.command.suggestion.ModularItemTypeSuggestion
+import io.github.mg138.modular.item.ingredient.ModularIngredient
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 import net.minecraft.command.argument.IdentifierArgumentType
 import net.minecraft.server.command.CommandManager.argument
@@ -22,7 +22,7 @@ object MakeModularItemCmd {
         source.sendFeedback(LiteralText("Ingredients:"), false)
 
         Registry.ITEM.forEach {
-            if (it is Ingredient) {
+            if (it is ModularIngredient) {
                 source.sendFeedback(
                     LiteralText(it.id.toString())
                         .append(" (Name: ")
@@ -45,7 +45,7 @@ object MakeModularItemCmd {
         val ingredients = StringArgumentType.getString(context, "ingredients").split(" ")
             .map { Identifier(it) }
             .map { Registry.ITEM.get(it) }
-            .filterIsInstance<Ingredient>()
+            .filterIsInstance<ModularIngredient>()
 
         player.giveItemStack(modularItem.makeItemStack(ingredients))
 
@@ -63,12 +63,13 @@ object MakeModularItemCmd {
 
                     .then(
                         literal("make")
+                            .requires(CommandUtil.admin())
                             .then(
                                 argument("type", IdentifierArgumentType.identifier())
-                                    .suggests(ModularItemTypeSuggestionProvider)
+                                    .suggests(ModularItemTypeSuggestion)
                                     .then(
                                         argument("ingredients", StringArgumentType.greedyString())
-                                            .suggests(IngredientSuggestionProvider)
+                                            .suggests(IngredientSuggestion)
                                             .executes(this::makeModularItem)
                                     )
                             )

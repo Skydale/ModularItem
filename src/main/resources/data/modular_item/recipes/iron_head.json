@@ -1,0 +1,20 @@
+{
+  "type": "modular_item:anvil",
+  "pattern": [
+    "WWW",
+    "WR ",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:oak_log"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "modular_item:test_modular_item",
+    "count": 1
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "modular_item.anvil.modular_item.simple_anvil_gui.title": "Simple Anvil:",
+  "modular_item.anvil.message.actionBar": "§rLeft/Right click to forge - %s§r - Hold shift to undo progress.",
+
+  "modular_item.ingredient.modular_item.quality_dummy_item": "§7Quality: %s"
+}
