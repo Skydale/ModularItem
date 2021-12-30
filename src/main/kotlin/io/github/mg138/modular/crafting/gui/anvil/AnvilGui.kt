@@ -6,15 +6,18 @@ import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity
 
-abstract class AnvilGui(player: ServerPlayerEntity) : Gui(ScreenHandlerType.GENERIC_9X6, player) {
+abstract class AnvilGui(player: ServerPlayerEntity, inventory: GuiInventory) : Gui(inventory, ScreenHandlerType.GENERIC_9X6, player) {
     abstract val level: Int
 
-    override fun slotRedirectTo(inventory: GuiInventory) {
+    override fun setting() {
         for (y in 0 until inventory.height) {
             for (x in 0 until inventory.width) {
                 val index = (y * inventory.width) + x
                 this.setSlotRedirect(index, Slot(inventory, index, x, y))
             }
         }
+    }
+
+    override fun update() {
     }
 }

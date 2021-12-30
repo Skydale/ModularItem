@@ -2,14 +2,12 @@ package io.github.mg138.modular.crafting.forge
 
 import io.github.mg138.modular.crafting.inventory.GuiInventory
 import io.github.mg138.modular.item.ingredient.impl.Quality
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
-import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
 

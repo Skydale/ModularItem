@@ -5,10 +5,7 @@ import eu.pb4.polymer.api.item.PolymerBlockItem
 import io.github.mg138.modular.crafting.gui.Gui
 import io.github.mg138.modular.crafting.inventory.GuiInventory
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
-import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
@@ -27,10 +24,10 @@ abstract class GuiBlock(
     val id: Identifier,
     private val vanillaBlock: Block
 ) : Block(FabricBlockSettings.copy(vanillaBlock)), PolymerBlock {
-    private val map: MutableMap<ServerPlayerEntity, GuiInventory> = mutableMapOf()
+    private val map: MutableMap<UUID, GuiInventory> = mutableMapOf()
 
-    abstract fun createGui(player: ServerPlayerEntity): Gui
-    abstract fun createInventory(block: GuiBlock, gui: Gui, player: ServerPlayerEntity): GuiInventory
+    abstract fun createGui(player: ServerPlayerEntity, inventory: GuiInventory): Gui
+    abstract fun createInventory(block: GuiBlock, player: ServerPlayerEntity): GuiInventory
 
     override fun onUse(
         state: BlockState,
@@ -41,15 +38,14 @@ abstract class GuiBlock(
         hit: BlockHitResult
     ): ActionResult {
         if (!world.isClient() && player is ServerPlayerEntity) {
-            val inventory = map.computeIfAbsent(player) {
-                val gui = createGui(player)
-
-                createInventory(this, gui, player).also {
-                    gui.slotRedirectTo(it)
-                    gui.setFrame()
-                }
+            val uuid = player.uuid
+            val inventory = map.computeIfAbsent(uuid) {
+                createInventory(this, player)
             }
-            inventory.gui.open()
+
+            val gui = createGui(player, inventory)
+            gui.setting()
+            gui.open()
             return ActionResult.CONSUME
         }
         return ActionResult.PASS
@@ -57,7 +53,7 @@ abstract class GuiBlock(
 
     override fun getPolymerBlock(state: BlockState?) = vanillaBlock
 
-    fun inventory(player: ServerPlayerEntity) = map[player]
+    fun inventory(player: ServerPlayerEntity) = map[player.uuid]
 
     fun validRecipe(player: ServerPlayerEntity): Boolean {
         return inventory(player)?.validRecipe() ?: false
@@ -66,8 +62,5 @@ abstract class GuiBlock(
     fun register() {
         Registry.register(Registry.BLOCK, id, this)
         Registry.register(Registry.ITEM, id, PolymerBlockItem(this, FabricItemSettings(), vanillaBlock.asItem()))
-        ServerPlayConnectionEvents.DISCONNECT.register { handler, _ ->
-            map.remove(handler.player)
-        }
     }
 }

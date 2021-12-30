@@ -10,10 +10,43 @@ import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.LiteralText
 
-abstract class TableGui(player: ServerPlayerEntity) : Gui(ScreenHandlerType.GENERIC_9X5, player) {
+abstract class TableGui(player: ServerPlayerEntity, inventory: GuiInventory) : Gui(
+    inventory, ScreenHandlerType.GENERIC_9X5, player
+) {
     abstract val level: Int
 
-    override fun setFrame() {
+    companion object {
+        const val OUTPUT = (2 * 9) + 7
+    }
+
+    override fun update() {
+        if (!inventory.validRecipe()) return
+
+        inventory.craft().let { craft ->
+            val element = GuiElementBuilder.from(craft)
+                .setCallback { _, _, _, gui ->
+                    val screenHandler = player!!.currentScreenHandler
+
+                    if (screenHandler.cursorStack.isEmpty) {
+                        screenHandler.cursorStack = craft
+                        gui.clearSlot(OUTPUT)
+                        inventory.consumeItems()
+                        inventory.update()
+                    }
+                }
+            setSlot(OUTPUT, element)
+        }
+    }
+
+    override fun setting() {
+        for (y in 0 until inventory.height) {
+            for (x in 0 until inventory.width) {
+                val thisIndex = (y * 9) + (x + 1)
+                val thatIndex = (y * inventory.width) + x
+                this.setSlotRedirect(thisIndex, Slot(inventory, thatIndex, x, y))
+            }
+        }
+
         val frame = GuiElementBuilder()
             .setItem(Items.BLACK_STAINED_GLASS_PANE)
             .setLore(listOf())
@@ -38,20 +71,6 @@ abstract class TableGui(player: ServerPlayerEntity) : Gui(ScreenHandlerType.GENE
             if (y == 2) continue
             val index = y * 9 + 7
             this.setSlot(index, frame)
-        }
-    }
-
-    companion object {
-        const val OUTPUT = (2 * 9) + 7
-    }
-
-    override fun slotRedirectTo(inventory: GuiInventory) {
-        for (y in 0 until inventory.height) {
-            for (x in 0 until inventory.width) {
-                val thisIndex = (y * 9) + (x + 1)
-                val thatIndex = (y * inventory.width) + x
-                this.setSlotRedirect(thisIndex, Slot(inventory, thatIndex, x, y))
-            }
         }
     }
 }

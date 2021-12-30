@@ -10,6 +10,7 @@ import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 
 abstract class Gui(
+    val inventory: GuiInventory,
     type: ScreenHandlerType<*>,
     player: ServerPlayerEntity
 ) : SimpleGui(type, player, false) {
@@ -25,8 +26,11 @@ abstract class Gui(
         return title
     }
 
-    open fun setFrame() {
+    override fun onTick() {
+        update()
     }
 
-    abstract fun slotRedirectTo(inventory: GuiInventory)
+    abstract fun update()
+
+    abstract fun setting()
 }

@@ -1,23 +1,30 @@
 package io.github.mg138.modular.crafting.inventory
 
-import eu.pb4.sgui.virtual.FakeScreenHandler
 import io.github.mg138.modular.crafting.block.GuiBlock
-import io.github.mg138.modular.crafting.gui.Gui
 import io.github.mg138.modular.item.ingredient.Ingredient
 import io.github.mg138.modular.item.modular.ModularItem
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.PlayerManager
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.world.World
 import java.util.*
 
 abstract class GuiInventory(
-    val block: GuiBlock, val gui: Gui, val player: ServerPlayerEntity, width: Int, height: Int
-) : CraftingInventory(FakeScreenHandler(gui), width, height) {
+    val block: GuiBlock, val server: MinecraftServer, private val uuid: UUID, width: Int, height: Int
+) : CraftingInventory(object : ScreenHandler(null, -1) {
+    override fun canUse(player: PlayerEntity?): Boolean {
+        return false
+    }
+}, width, height) {
+    constructor(block: GuiBlock, player: ServerPlayerEntity, width: Int, height: Int) : this(
+        block, player.server, player.uuid, width, height
+    )
+
+    val player
+        get() = server.playerManager.getPlayer(uuid)!!
 
     protected var validRecipe = false
     fun validRecipe() = validRecipe
