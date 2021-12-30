@@ -8,13 +8,20 @@ import io.github.mg138.modular.item.modular.ModularItem
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.MinecraftServer
+import net.minecraft.server.PlayerManager
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.World
+import java.util.*
 
 abstract class GuiInventory(
-    val block: GuiBlock, val gui: Gui, val player: ServerPlayerEntity, width: Int, height: Int
+    val block: GuiBlock, val gui: Gui, val playerManager: PlayerManager, val uuid: UUID, width: Int, height: Int
 ) : CraftingInventory(FakeScreenHandler(gui), width, height) {
-    protected val world: World = player.world
+    val player
+        get() = playerManager.getPlayer(uuid)
+    
+    protected val world
+        get() = player?.world
 
     protected var validRecipe = false
     fun validRecipe() = validRecipe

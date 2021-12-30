@@ -17,13 +17,14 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
+import java.util.*
 
 
 abstract class GuiBlock(
     val id: Identifier,
     private val vanillaBlock: Block
 ) : Block(FabricBlockSettings.copy(vanillaBlock)), PolymerBlock {
-    private val map: MutableMap<ServerPlayerEntity, GuiInventory> = mutableMapOf()
+    private val map: MutableMap<UUID, GuiInventory> = mutableMapOf()
 
     abstract fun createGui(player: ServerPlayerEntity): Gui
     abstract fun createInventory(block: GuiBlock, gui: Gui, player: ServerPlayerEntity): GuiInventory
@@ -37,7 +38,7 @@ abstract class GuiBlock(
         hit: BlockHitResult
     ): ActionResult {
         if (!world.isClient() && player is ServerPlayerEntity) {
-            val inventory = map.computeIfAbsent(player) {
+            val inventory = map.computeIfAbsent(player.uuid) {
                 val gui = createGui(player)
 
                 createInventory(this, gui, player).also {
@@ -53,7 +54,7 @@ abstract class GuiBlock(
 
     override fun getPolymerBlock(state: BlockState?) = vanillaBlock
 
-    fun inventory(player: ServerPlayerEntity) = map[player]
+    fun inventory(player: ServerPlayerEntity) = map[player.uuid]
 
     fun validRecipe(player: ServerPlayerEntity): Boolean {
         return inventory(player)?.validRecipe() ?: false

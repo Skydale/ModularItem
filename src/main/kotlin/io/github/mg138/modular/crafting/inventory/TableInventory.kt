@@ -10,36 +10,40 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 class TableInventory(
     block: GuiBlock, gui: Gui, player: ServerPlayerEntity
-) : GuiInventory(block, gui, player, 5, 5) {
+) : GuiInventory(block, gui, player.server.playerManager, player.uuid, 5, 5) {
     override fun update() {
-        val match = world.recipeManager.getFirstMatch(TableRecipe.TABLE, this, world)
+        world?.let { world ->
+            player?.let { player ->
+                val match = world.recipeManager.getFirstMatch(TableRecipe.TABLE, this, world)
 
-        validRecipe = match.isPresent
+                validRecipe = match.isPresent
 
-        if (match.isPresent) {
-            val matchedRecipe = match.get()
-            val matchedOutput = matchedRecipe.output.item
+                if (match.isPresent) {
+                    val matchedRecipe = match.get()
+                    val matchedOutput = matchedRecipe.output.item
 
-            if (matchedOutput !is ModularItem) {
-                throw IllegalArgumentException("Output ${matchedRecipe.output.item} in recipe ${matchedRecipe.id} is not a ModularItem!")
-            }
-            output = matchedOutput
-
-            val craft = this.craft()
-            val element = GuiElementBuilder.from(craft)
-                .setCallback { _, _, _ ->
-                    val screenHandler = player.currentScreenHandler
-                    if (screenHandler.cursorStack.isEmpty) {
-                        screenHandler.cursorStack = craft
-                        gui.clearSlot(TableGui.OUTPUT)
-                        consumeItems()
-                        update()
+                    if (matchedOutput !is ModularItem) {
+                        throw IllegalArgumentException("Output ${matchedRecipe.output.item} in recipe ${matchedRecipe.id} is not a ModularItem!")
                     }
-                }
+                    output = matchedOutput
 
-            gui.setSlot(TableGui.OUTPUT, element)
-        } else {
-            gui.clearSlot(TableGui.OUTPUT)
+                    val craft = this.craft()
+                    val element = GuiElementBuilder.from(craft)
+                        .setCallback { _, _, _ ->
+                            val screenHandler = player.currentScreenHandler
+                            if (screenHandler.cursorStack.isEmpty) {
+                                screenHandler.cursorStack = craft
+                                gui.clearSlot(TableGui.OUTPUT)
+                                consumeItems()
+                                update()
+                            }
+                        }
+
+                    gui.setSlot(TableGui.OUTPUT, element)
+                } else {
+                    gui.clearSlot(TableGui.OUTPUT)
+                }
+            }
         }
     }
 }

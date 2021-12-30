@@ -8,6 +8,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
+import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -25,11 +26,11 @@ object ForgeManager {
 
     private val DEFAULT_PAIR = Accuracy.PERFECT to 0
 
-    private val map: MutableMap<ServerPlayerEntity, Pair<Int, Int>> = mutableMapOf()
+    private val map: MutableMap<UUID, Pair<Int, Int>> = mutableMapOf()
 
-    fun remove(player: ServerPlayerEntity) = map.remove(player)
+    fun remove(player: ServerPlayerEntity) = map.remove(player.uuid)
 
-    operator fun get(player: ServerPlayerEntity) = map.getOrPut(player) { DEFAULT_PAIR }
+    operator fun get(player: ServerPlayerEntity) = map.getOrPut(player.uuid) { DEFAULT_PAIR }
 
     fun processResult(player: ServerPlayerEntity, inventory: GuiInventory, result: ActionResult) {
         if (result == ActionResult.SUCCESS) {
@@ -64,7 +65,7 @@ object ForgeManager {
         modifier: Int,
         undo: Boolean
     ): ActionResult {
-        val (accuracy, progress) = map.getOrPut(player) { DEFAULT_PAIR }
+        val (accuracy, progress) = map.getOrPut(player.uuid) { DEFAULT_PAIR }
 
         val accuracyD = ((1 / accuracy.toDouble()) * modifier).roundToInt()
 
@@ -90,7 +91,7 @@ object ForgeManager {
             return ActionResult.FAIL
         }
 
-        map[player] = new
+        map[player.uuid] = new
 
         if (new.second >= Progress.DONE) {
             player.playSound(SoundEvents.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 0.5F, 1.5F)

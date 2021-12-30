@@ -12,11 +12,12 @@ import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
+import java.util.*
 import kotlin.jvm.internal.Ref
 import kotlin.math.roundToInt
 
 object ProgressDisplay {
-    private val map: MutableMap<ServerPlayerEntity, Triple<ServerBossBar, ItemStack?, Ref.IntRef>> = mutableMapOf()
+    private val map: MutableMap<UUID, Triple<ServerBossBar, ItemStack?, Ref.IntRef>> = mutableMapOf()
 
     object BossBarDisplay {
         private const val length = 100
@@ -60,7 +61,7 @@ object ProgressDisplay {
         }
 
         fun show(player: ServerPlayerEntity, accuracy: Int, progress: Int): ServerBossBar {
-            val old = map[player]
+            val old = map[player.uuid]
 
             val percentage = progress.toFloat() / ForgeManager.Progress.DONE
             val name = progressString(accuracy)
@@ -106,15 +107,17 @@ object ProgressDisplay {
     private const val actionBarKey = "$anvilKey.message.actionBar"
 
     private fun tick(server: MinecraftServer) {
-        val toRemove: MutableList<ServerPlayerEntity> = mutableListOf()
+        val toRemove: MutableList<UUID> = mutableListOf()
 
-        map.forEach { (player, triple) ->
+        map.forEach { (uuid, triple) ->
             val age = triple.third.apply { element++ }
 
             if (age.element >= 60) {
-                SideBarDisplay.removePlayer(player)
+                server.playerManager.getPlayer(uuid)?.let {
+                    SideBarDisplay.removePlayer(it)
+                }
                 triple.first.clearPlayers()
-                toRemove += player
+                toRemove += uuid
             }
         }
 
@@ -143,6 +146,6 @@ object ProgressDisplay {
             ), true
         )
 
-        map[player] = Triple(bossBar, itemStack, Ref.IntRef().apply { element = 0 })
+        map[player.uuid] = Triple(bossBar, itemStack, Ref.IntRef().apply { element = 0 })
     }
 }

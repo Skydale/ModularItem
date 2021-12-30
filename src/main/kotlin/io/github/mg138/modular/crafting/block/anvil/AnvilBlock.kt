@@ -16,8 +16,6 @@ abstract class AnvilBlock(
     override fun createInventory(block: GuiBlock, gui: Gui, player: ServerPlayerEntity) = AnvilInventory(block, gui, player)
 
     companion object {
-
-
         fun register() {
             BronzeAnvilBlock.register()
             IronAnvilBlock.register()
