@@ -41,12 +41,6 @@ abstract class ModularItem(
             modularItemNbt.put(INGREDIENTS_KEY, ingredientsNbt)
 
             nbt.put(MODULAR_KEY, modularItemNbt)
-
-            println(this.orCreateNbt)
-        }.also {
-            ModularItemUtil.readIngredients(it) { ingredient, data, level ->
-                println(data)
-            }
         }
 
     override fun appendTooltip(

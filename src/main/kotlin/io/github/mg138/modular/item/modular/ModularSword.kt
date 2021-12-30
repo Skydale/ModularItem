@@ -9,7 +9,7 @@ import net.minecraft.item.Items
 
 object ModularSword : ModularStatedItem(
     Main.modId - "modular_sword",
-    BookItemSettings(true), FabricItemSettings(),
+    BookItemSettings(false), FabricItemSettings(),
     Items.IRON_SWORD
 ), StatedIngredient {
     override val updateStatPriority = 1
@@ -18,5 +18,4 @@ object ModularSword : ModularStatedItem(
         super<ModularStatedItem>.register()
         super<StatedIngredient>.register()
     }
-
 }

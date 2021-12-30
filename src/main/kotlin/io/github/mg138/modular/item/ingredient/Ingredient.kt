@@ -31,7 +31,6 @@ interface Ingredient {
             stringBuilder.append(" ")
         }
 
-       // val padding = LiteralText(stringBuilder.toString().also {println(it)}).also{println(it)}
         val padding = LiteralText("".padEnd(level * 2, ' '))
 
         tooltip.add(padding.append(lore(data)))

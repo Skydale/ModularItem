@@ -5,6 +5,7 @@ import eu.pb4.polymer.api.item.PolymerRecipe
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.ShapedRecipe
@@ -18,6 +19,8 @@ class AnvilRecipe(
 ) : ShapedRecipe(recipe.id, recipe.group, recipe.width, recipe.height, recipe.ingredients, recipe.output),
     PolymerRecipe {
     override fun getType() = ANVIL
+
+    override fun getPolymerRecipe(input: Recipe<*>?): Recipe<*> = PolymerRecipe.createSmithingRecipe(input)
 
     companion object {
         val ID = Main.modId - "anvil"

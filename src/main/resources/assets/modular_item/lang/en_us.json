@@ -6,5 +6,12 @@
   "modular_item.anvil.message.sideBar.title": "§aTips:",
   "modular_item.anvil.message.sideBar": "§eTry to land the last hit on middle!",
 
+  "item.modular_item.modular_sword": "Modular Sword",
+
+  "item.modular_item.modular_iron_blade": "Iron Blade Part",
+  "modular_item.ingredient.modular_item.iron_blade": "§7Iron Blade",
+
+  "modular_item.ingredient.modular_item.modular_iron_blade": "§7Iron Blade Part",
+
   "modular_item.ingredient.modular_item.quality": "§7Quality: %s"
 }

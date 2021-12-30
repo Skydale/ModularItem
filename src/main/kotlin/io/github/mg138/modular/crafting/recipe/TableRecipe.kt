@@ -2,9 +2,11 @@ package io.github.mg138.modular.crafting.recipe
 
 import com.google.gson.JsonObject
 import eu.pb4.polymer.api.item.PolymerRecipe
+import eu.pb4.polymer.api.item.PolymerRecipe.createSmithingRecipe
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.ShapedRecipe
@@ -18,6 +20,8 @@ class TableRecipe(
 ) : ShapedRecipe(recipe.id, recipe.group, recipe.width, recipe.height, recipe.ingredients, recipe.output),
     PolymerRecipe {
     override fun getType() = TABLE
+
+    override fun getPolymerRecipe(input: Recipe<*>?): Recipe<*> = createSmithingRecipe(input)
 
     companion object {
         val ID = Main.modId - "table"

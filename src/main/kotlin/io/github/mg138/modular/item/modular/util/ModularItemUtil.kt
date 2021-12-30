@@ -38,6 +38,24 @@ object ModularItemUtil {
         }
     }
 
+    fun readIngredientsShallow(data: NbtCompound, level: Int = 0, callback: (Ingredient, NbtCompound, Int) -> Unit) {
+        if (!data.contains(ModularItem.MODULAR_KEY)) return
+        val modularItemNbt = data.getCompound(ModularItem.MODULAR_KEY)
+
+        if (!modularItemNbt.contains(ModularItem.INGREDIENTS_KEY)) return
+        val ingredientsNbt = modularItemNbt.getList(ModularItem.INGREDIENTS_KEY, NbtType.COMPOUND)
+
+        ingredientsNbt.filterIsInstance<NbtCompound>().forEach {
+            readIngredient(it, level) { ingredient, data, level ->
+                callback(ingredient, data, level)
+            }
+        }
+    }
+
+    fun readIngredientsShallow(itemStack: ItemStack, level: Int = 0, callback: (Ingredient, NbtCompound, Int) -> Unit) {
+        readIngredientsShallow(itemStack.orCreateNbt, level, callback)
+    }
+
     fun readIngredients(itemStack: ItemStack, level: Int = 0, callback: (Ingredient, NbtCompound, Int) -> Unit) {
         readIngredients(itemStack.orCreateNbt, level, callback)
     }
@@ -47,7 +65,7 @@ object ModularItemUtil {
             StatMap().apply {
                 val list: MutableList<Pair<StatedIngredient, NbtCompound>> = mutableListOf()
 
-                readIngredients(data) { ingredient, data, _ ->
+                readIngredientsShallow(data) { ingredient, data, _ ->
                     if (ingredient is StatedIngredient) {
                         list.add(ingredient to data)
                     }
