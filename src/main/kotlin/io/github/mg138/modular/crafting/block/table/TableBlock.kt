@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier
 abstract class TableBlock(
     id: Identifier
 ) : GuiBlock(id, Blocks.CRAFTING_TABLE) {
-    override fun createInventory(gui: Gui, player: ServerPlayerEntity) = TableInventory(gui, player)
+    override fun createInventory(block: GuiBlock, gui: Gui, player: ServerPlayerEntity) = TableInventory(block, gui, player)
 
     companion object {
         fun register() {

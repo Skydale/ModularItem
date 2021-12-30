@@ -2,6 +2,7 @@
   "modular_item.gui.modular_item.bronze_anvil_gui.title": "Bronze Anvil:",
   "modular_item.gui.modular_item.iron_anvil_gui.title": "Iron Anvil:",
 
+  "modular_item.anvil.message.level_too_low": "§cAnvil level is too low for this recipe!",
   "modular_item.anvil.message.actionBar": "§rLeft/Right click to forge - %s§r - Hold shift to undo progress.",
   "modular_item.anvil.message.sideBar.title": "§aTips:",
   "modular_item.anvil.message.sideBar": "§eTry to land the last hit on middle!",

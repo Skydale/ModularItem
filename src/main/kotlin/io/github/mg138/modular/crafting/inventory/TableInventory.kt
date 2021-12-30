@@ -1,6 +1,7 @@
 package io.github.mg138.modular.crafting.inventory
 
 import eu.pb4.sgui.api.elements.GuiElementBuilder
+import io.github.mg138.modular.crafting.block.GuiBlock
 import io.github.mg138.modular.crafting.gui.Gui
 import io.github.mg138.modular.crafting.gui.table.TableGui
 import io.github.mg138.modular.crafting.recipe.TableRecipe
@@ -8,8 +9,8 @@ import io.github.mg138.modular.item.modular.ModularItem
 import net.minecraft.server.network.ServerPlayerEntity
 
 class TableInventory(
-    gui: Gui, player: ServerPlayerEntity
-) : GuiInventory(gui, player, 5, 5) {
+    block: GuiBlock, gui: Gui, player: ServerPlayerEntity
+) : GuiInventory(block, gui, player, 5, 5) {
     override fun update() {
         val match = world.recipeManager.getFirstMatch(TableRecipe.TABLE, this, world)
 

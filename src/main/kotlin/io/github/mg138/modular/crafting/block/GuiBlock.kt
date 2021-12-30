@@ -26,7 +26,7 @@ abstract class GuiBlock(
     private val map: MutableMap<ServerPlayerEntity, GuiInventory> = mutableMapOf()
 
     abstract fun createGui(player: ServerPlayerEntity): Gui
-    abstract fun createInventory(gui: Gui, player: ServerPlayerEntity): GuiInventory
+    abstract fun createInventory(block: GuiBlock, gui: Gui, player: ServerPlayerEntity): GuiInventory
 
     override fun onUse(
         state: BlockState,
@@ -40,7 +40,7 @@ abstract class GuiBlock(
             val inventory = map.computeIfAbsent(player) {
                 val gui = createGui(player)
 
-                createInventory(gui, player).also {
+                createInventory(this, gui, player).also {
                     gui.slotRedirectTo(it)
                     gui.setFrame()
                 }

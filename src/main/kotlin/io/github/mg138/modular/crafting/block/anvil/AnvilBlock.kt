@@ -12,10 +12,12 @@ import net.minecraft.util.Identifier
 
 abstract class AnvilBlock(
     id: Identifier
-) : GuiBlock(id, Blocks.SMITHING_TABLE) {
-    override fun createInventory(gui: Gui, player: ServerPlayerEntity) = AnvilInventory(gui, player)
+) : GuiBlock(id, Blocks.SMITHING_TABLE), LeveledBlock {
+    override fun createInventory(block: GuiBlock, gui: Gui, player: ServerPlayerEntity) = AnvilInventory(block, gui, player)
 
     companion object {
+
+
         fun register() {
             BronzeAnvilBlock.register()
             IronAnvilBlock.register()

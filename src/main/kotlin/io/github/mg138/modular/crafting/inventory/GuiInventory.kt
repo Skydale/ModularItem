@@ -1,6 +1,7 @@
 package io.github.mg138.modular.crafting.inventory
 
 import eu.pb4.sgui.virtual.FakeScreenHandler
+import io.github.mg138.modular.crafting.block.GuiBlock
 import io.github.mg138.modular.crafting.gui.Gui
 import io.github.mg138.modular.item.ingredient.Ingredient
 import io.github.mg138.modular.item.modular.ModularItem
@@ -11,7 +12,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.World
 
 abstract class GuiInventory(
-    val gui: Gui, val player: ServerPlayerEntity, width: Int, height: Int
+    val block: GuiBlock, val gui: Gui, val player: ServerPlayerEntity, width: Int, height: Int
 ) : CraftingInventory(FakeScreenHandler(gui), width, height) {
     protected val world: World = player.world
 

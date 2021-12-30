@@ -2,6 +2,7 @@ package io.github.mg138.modular.crafting.recipe
 
 import com.google.gson.JsonObject
 import eu.pb4.polymer.api.item.PolymerRecipe
+import eu.pb4.polymer.api.item.PolymerRecipe.createCraftingRecipe
 import eu.pb4.polymer.api.item.PolymerRecipe.createSmithingRecipe
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
@@ -21,7 +22,7 @@ class TableRecipe(
     PolymerRecipe {
     override fun getType() = TABLE
 
-    override fun getPolymerRecipe(input: Recipe<*>?): Recipe<*> = createSmithingRecipe(input)
+    override fun getPolymerRecipe(input: Recipe<*>?): Recipe<*> = createCraftingRecipe(input)
 
     companion object {
         val ID = Main.modId - "table"
