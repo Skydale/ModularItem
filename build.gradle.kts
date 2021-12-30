@@ -67,6 +67,7 @@ tasks {
         kotlinOptions { jvmTarget = javaVersion.toString() }
         sourceCompatibility = javaVersion.toString()
         targetCompatibility = javaVersion.toString()
+        kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
     jar { from("LICENSE") { rename { "${it}_${base.archivesName}" } } }
     processResources {

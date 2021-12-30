@@ -16,7 +16,7 @@ abstract class ModularStatedItem(
     bookItemSettings: BookItemSettings,
     settings: Settings, vanillaItem: Item
 ) : ModularItem(id, bookItemSettings, settings, vanillaItem), StatedItem {
-    override fun getStatMap(itemStack: ItemStack?) = ModularItemUtil.getStatMap(this, itemStack)
+    override fun getStatMap(itemStack: ItemStack?) = ModularItemUtil.getStatMap(itemStack)
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         tooltip.addAll(getStatMap(stack).lores())

@@ -6,57 +6,63 @@ import io.github.mg138.modular.item.ingredient.IngredientManager
 import io.github.mg138.modular.item.ingredient.StatedIngredient
 import io.github.mg138.modular.item.modular.ModularItem
 import net.fabricmc.fabric.api.util.NbtType
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
 import net.minecraft.util.Identifier
 
 object ModularItemUtil {
-    private val cacheIngredients: MutableMap<NbtList, List<Ingredient>> = mutableMapOf()
-    private val cacheStatMap: MutableMap<ItemStack, StatMap> = mutableMapOf()
+    private val cacheStatMap: MutableMap<NbtCompound, StatMap> = mutableMapOf()
 
-    fun getModularItemNbt(itemStack: ItemStack?) =
-        itemStack?.orCreateNbt?.getCompound(ModularItem.MODULAR_ITEM_KEY)
+    private fun readIngredient(nbt: NbtCompound, level: Int = 0, callback: (Ingredient, NbtCompound, Int) -> Unit) {
+        if (!nbt.contains(ModularItem.ID_KEY)) return
+        if (!nbt.contains(ModularItem.DATA_KEY)) return
 
-    fun getIngredientNbt(modularItemNbt: NbtCompound) =
-        modularItemNbt.getList(ModularItem.INGREDIENTS_KEY, NbtType.STRING)
+        val ingredient = IngredientManager[Identifier(nbt.getString(ModularItem.ID_KEY))] ?: return
+        val data = nbt.getCompound(ModularItem.DATA_KEY)
 
-    fun getIngredients(modularItemNbt: NbtCompound): List<Ingredient> {
-        val ingredientsNbt = getIngredientNbt(modularItemNbt)
+        callback(ingredient, data, level)
+    }
 
-        return cacheIngredients.getOrPut(ingredientsNbt) {
-            ingredientsNbt
-                .map { Identifier(it.asString()) }
-                .mapNotNull { IngredientManager[it] }
+    private fun readIngredients(data: NbtCompound, level: Int = 0, callback: (Ingredient, NbtCompound, Int) -> Unit) {
+        if (!data.contains(ModularItem.MODULAR_KEY)) return
+        val modularItemNbt = data.getCompound(ModularItem.MODULAR_KEY)
+
+        if (!modularItemNbt.contains(ModularItem.INGREDIENTS_KEY)) return
+        val ingredientsNbt = modularItemNbt.getList(ModularItem.INGREDIENTS_KEY, NbtType.COMPOUND)
+
+        ingredientsNbt.filterIsInstance<NbtCompound>().forEach {
+            readIngredient(it, level) { ingredient, data, level ->
+                callback(ingredient, data, level)
+                readIngredients(data, level + 1, callback)
+            }
         }
     }
 
-    fun getIngredients(itemStack: ItemStack?): List<Ingredient> {
-        val modularItemNbt = getModularItemNbt(itemStack) ?: return emptyList()
-
-        return getIngredients(modularItemNbt)
+    fun readIngredients(itemStack: ItemStack, level: Int = 0, callback: (Ingredient, NbtCompound, Int) -> Unit) {
+        readIngredients(itemStack.orCreateNbt, level, callback)
     }
 
-    fun getStatMap(item: Item, itemStack: ItemStack, modularItemNbt: NbtCompound): StatMap {
-        return cacheStatMap.getOrPut(itemStack) {
-            val ingredients = getIngredients(modularItemNbt)
-
+    fun getStatMap(data: NbtCompound): StatMap {
+        return cacheStatMap.getOrPut(data) {
             StatMap().apply {
-                ingredients
-                    .filterIsInstance<StatedIngredient>()
-                    .sortedBy { it.updateStatPriority }
-                    .forEach {
-                        it.updateStats(this, item, itemStack)
+                val list: MutableList<Pair<StatedIngredient, NbtCompound>> = mutableListOf()
+
+                readIngredients(data) { ingredient, data, _ ->
+                    if (ingredient is StatedIngredient) {
+                        list.add(ingredient to data)
+                    }
+                }
+                list.sortedBy { it.first.updateStatPriority }
+                    .forEach { (ingredient, data) ->
+                        ingredient.updateStats(this, data)
                     }
             }
         }
     }
 
-    fun getStatMap(item: Item, itemStack: ItemStack?): StatMap {
+    fun getStatMap(itemStack: ItemStack?): StatMap {
         if (itemStack == null) return StatMap()
-        val modularItemNbt = getModularItemNbt(itemStack) ?: return StatMap()
 
-        return getStatMap(item, itemStack, modularItemNbt)
+        return getStatMap(itemStack.orCreateNbt)
     }
 }

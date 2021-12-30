@@ -6,17 +6,15 @@ import com.mojang.brigadier.context.CommandContext
 import io.github.mg138.modular.command.suggestion.IngredientSuggestion
 import io.github.mg138.modular.command.suggestion.ModularItemTypeSuggestion
 import io.github.mg138.modular.item.ingredient.IngredientManager
-import io.github.mg138.modular.item.ingredient.modular.ModularIngredient
-import io.github.mg138.modular.item.ingredient.modular.ModularIngredientManager
 import io.github.mg138.modular.item.modular.ModularItemManager
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 import net.minecraft.command.argument.IdentifierArgumentType
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.text.LiteralText
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 object MakeModularItemCmd {
     private fun listIngredients(context: CommandContext<ServerCommandSource>): Int {
@@ -43,7 +41,7 @@ object MakeModularItemCmd {
             .map { Identifier(it) }
             .mapNotNull { IngredientManager[it] }
 
-        player.giveItemStack(modularItem.makeItemStack(ingredients))
+        player.giveItemStack(modularItem.makeItemStack(ingredients.map { it to NbtCompound() }))
 
         return Command.SINGLE_SUCCESS
     }

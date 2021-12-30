@@ -1,6 +1,5 @@
 package io.github.mg138.modular.item.modular
 
-import io.github.mg138.modular.item.ingredient.Ingredient
 import net.minecraft.util.Identifier
 
 object ModularItemManager {

@@ -1,0 +1,22 @@
+{
+  "type": "modular_item:table",
+  "level": 0,
+  "pattern": [
+    " B ",
+    " B ",
+    "SSS",
+    " S "
+  ],
+  "key": {
+    "B": {
+      "tag": "modular_item:blades"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "modular_item:modular_sword",
+    "count": 1
+  }
+}

@@ -1,18 +1,17 @@
 package io.github.mg138.modular
 
 import eu.pb4.polymer.api.resourcepack.PolymerRPUtils
-import io.github.mg138.modular.anvil.AnvilRecipe
-import io.github.mg138.modular.anvil.block.AnvilBlock
-import io.github.mg138.modular.anvil.forge.ProgressDisplay
-import io.github.mg138.modular.anvil.item.HammerUseOnAnvil
-import io.github.mg138.modular.anvil.item.HammerItem
 import io.github.mg138.modular.command.MakeModularItemCmd
-import io.github.mg138.modular.item.modular.TestModularItem
-import io.github.mg138.modular.item.ingredient.impl.Quality
-import io.github.mg138.modular.item.ingredient.impl.SpiderEye
-import io.github.mg138.modular.item.ingredient.impl.ZombieHead
-import io.github.mg138.modular.item.ingredient.modular.impl.ModularSpiderEye
-import io.github.mg138.modular.item.ingredient.modular.impl.ModularZombieHead
+import io.github.mg138.modular.crafting.block.anvil.AnvilBlock
+import io.github.mg138.modular.crafting.block.table.TableBlock
+import io.github.mg138.modular.crafting.event.HammerUseOnAnvil
+import io.github.mg138.modular.crafting.forge.ProgressDisplay
+import io.github.mg138.modular.crafting.item.HammerItem
+import io.github.mg138.modular.crafting.recipe.AnvilRecipe
+import io.github.mg138.modular.crafting.recipe.TableRecipe
+import io.github.mg138.modular.item.ingredient.Ingredient
+import io.github.mg138.modular.item.ingredient.modular.ModularIngredient
+import io.github.mg138.modular.item.modular.ModularItem
 import net.fabricmc.api.DedicatedServerModInitializer
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -20,29 +19,28 @@ import org.apache.logging.log4j.Logger
 @Suppress("UNUSED")
 object Main : DedicatedServerModInitializer {
     const val modId = "modular_item"
-    val logger: Logger = LogManager.getLogger(modId)
+    private val logger: Logger = LogManager.getLogger(modId)
 
     override fun onInitializeServer() {
         PolymerRPUtils.addAssetSource(modId)
 
-        TestModularItem.register()
+        Ingredient.register()
+        ModularIngredient.register()
 
         ProgressDisplay.register()
+
         HammerItem.register()
-        HammerUseOnAnvil.register()
-
-        SpiderEye.register()
-        ZombieHead.register()
-        Quality.register()
-
-        ModularSpiderEye.register()
-        ModularZombieHead.register()
 
         AnvilRecipe.register()
-
         AnvilBlock.register()
+        TableRecipe.register()
+        TableBlock.register()
+
+        HammerUseOnAnvil.register()
 
         MakeModularItemCmd.register()
+
+        ModularItem.register()
         logger.info("Registered Modular Item.")
     }
 }

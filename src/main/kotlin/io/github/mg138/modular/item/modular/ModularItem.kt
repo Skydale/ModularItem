@@ -3,7 +3,6 @@ package io.github.mg138.modular.item.modular
 import io.github.mg138.bookshelf.item.BookItem
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.modular.item.ingredient.Ingredient
-import io.github.mg138.modular.item.ingredient.modular.ModularIngredient
 import io.github.mg138.modular.item.modular.util.ModularItemUtil
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
@@ -20,31 +19,35 @@ abstract class ModularItem(
     bookItemSettings: BookItemSettings,
     settings: Settings, vanillaItem: Item
 ) : BookItem(id, bookItemSettings, settings, vanillaItem) {
-    companion object {
-        const val MODULAR_ITEM_KEY = "modular"
-        const val INGREDIENTS_KEY = "ingredients"
-    }
-
     override fun register() {
         super.register()
         ModularItemManager.add(this)
     }
 
-    open fun makeItemStack(ingredients: Iterable<Ingredient>): ItemStack =
+    open fun makeItemStack(ingredients: Iterable<Pair<Ingredient, NbtCompound>>): ItemStack =
         this.defaultStack.apply {
             val nbt = orCreateNbt
             val modularItemNbt = NbtCompound()
 
             val ingredientsNbt = NbtList()
             ingredients.forEach {
-                ingredientsNbt.add(NbtString.of(it.id.toString()))
+                val compound = NbtCompound()
+
+                compound.put(ID_KEY, NbtString.of(it.first.id.toString()))
+                compound.put(DATA_KEY, it.second)
+
+                ingredientsNbt.add(compound)
             }
             modularItemNbt.put(INGREDIENTS_KEY, ingredientsNbt)
 
-            nbt.put(MODULAR_ITEM_KEY, modularItemNbt)
-        }
+            nbt.put(MODULAR_KEY, modularItemNbt)
 
-    open fun getIngredients(itemStack: ItemStack) = ModularItemUtil.getIngredients(itemStack)
+            println(this.orCreateNbt)
+        }.also {
+            ModularItemUtil.readIngredients(it) { ingredient, data, level ->
+                println(data)
+            }
+        }
 
     override fun appendTooltip(
         stack: ItemStack,
@@ -53,6 +56,21 @@ abstract class ModularItem(
         context: TooltipContext
     ) {
         super.appendTooltip(stack, world, tooltip, context)
-        this.getIngredients(stack).forEach { it.appendTooltip(stack, world, tooltip, context) }
+
+        ModularItemUtil.readIngredients(stack) { ingredient, data, level ->
+            ingredient.appendTooltip(level, stack, data, tooltip)
+        }
+    }
+
+    companion object {
+        const val MODULAR_KEY = "modular"
+        const val INGREDIENTS_KEY = "ingredients"
+        const val ID_KEY = "id"
+        const val DATA_KEY = "data"
+
+        fun register() {
+            TestModularItem.register()
+            ModularSword.register()
+        }
     }
 }

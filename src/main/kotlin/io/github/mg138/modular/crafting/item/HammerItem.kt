@@ -1,4 +1,4 @@
-package io.github.mg138.modular.anvil.item
+package io.github.mg138.modular.crafting.item
 
 import io.github.mg138.bookshelf.item.BookItem
 import io.github.mg138.bookshelf.item.BookItemSettings

@@ -5,22 +5,16 @@ import io.github.mg138.bookshelf.stat.data.StatMap
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StatedIngredient
-import net.minecraft.client.item.TooltipContext
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.text.TextColor
 import net.minecraft.text.TranslatableText
-import net.minecraft.world.World
 
 object Quality : StatedIngredient {
     override val id = Main.modId - "quality"
 
-    const val qualityKey = "quality"
-
-    private fun getQuality(itemStack: ItemStack?) =
-        itemStack?.orCreateNbt?.getInt(qualityKey) ?: 0
+    private const val qualityKey = "quality"
 
     private fun color(accuracy: Int): TextColor {
         if (accuracy == 100) {
@@ -38,12 +32,15 @@ object Quality : StatedIngredient {
         return TextColor.fromRgb(0xff5963)
     }
 
-    override fun getStats(itemStack: ItemStack?) = StatMap.EMPTY
+    override fun getStats(nbt: NbtCompound) = StatMap.EMPTY
 
     override val updateStatPriority = Int.MAX_VALUE
 
-    override fun updateStats(mutableStats: MutableStats, item: Item, itemStack: ItemStack) {
-        val quality = getQuality(itemStack)
+    private fun getQuality(nbt: NbtCompound) =
+        nbt.getInt(qualityKey)
+
+    override fun updateStats(mutableStats: MutableStats, nbt: NbtCompound) {
+        val quality = getQuality(nbt)
         val m = quality / 100.0
 
         mutableStats.forEach { (type, stat) ->
@@ -51,9 +48,14 @@ object Quality : StatedIngredient {
         }
     }
 
-    override fun lore(itemStack: ItemStack?): Text {
-        val quality = getQuality(itemStack)
+    override fun lore(data: NbtCompound): Text {
+        val quality = getQuality(data)
 
         return TranslatableText(loreKey, LiteralText(quality.toString()).styled { it.withColor(color(quality)) })
+    }
+
+    fun putNbt(data: NbtCompound, quality: Int): NbtCompound {
+        data.putInt(qualityKey, quality)
+        return data
     }
 }

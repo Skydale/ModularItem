@@ -7,9 +7,6 @@ object ModularIngredientManager {
 
     operator fun get(id: Identifier) = map[id]
 
-    val ingredients: Iterable<ModularIngredient>
-        get() = map.values
-
     fun add(ingredient: ModularIngredient) {
         map[ingredient.id] = ingredient
     }

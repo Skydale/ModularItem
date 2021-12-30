@@ -1,0 +1,19 @@
+{
+  "type": "modular_item:anvil",
+  "level": 0,
+  "pattern": [
+    " B",
+    "BB",
+    "BB",
+    "B "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "modular_item:modular_iron_blade",
+    "count": 1
+  }
+}
