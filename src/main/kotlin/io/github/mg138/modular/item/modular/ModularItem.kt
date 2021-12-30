@@ -57,8 +57,8 @@ abstract class ModularItem(
     }
 
     companion object {
-        const val MODULAR_KEY = "modular"
-        const val INGREDIENTS_KEY = "ingredients"
+        const val MODULAR_KEY = "mod"
+        const val INGREDIENTS_KEY = "ing"
         const val ID_KEY = "id"
         const val DATA_KEY = "data"
 

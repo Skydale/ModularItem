@@ -5,8 +5,10 @@ import io.github.mg138.modular.crafting.inventory.GuiInventory
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.minecraft.entity.boss.BossBar
 import net.minecraft.entity.boss.ServerBossBar
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.PlayerManager
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
@@ -17,7 +19,7 @@ import kotlin.jvm.internal.Ref
 import kotlin.math.roundToInt
 
 object ProgressDisplay {
-    private val map: MutableMap<UUID, Triple<ServerBossBar, ItemStack?, Ref.IntRef>> = mutableMapOf()
+    private val map: MutableMap<ServerPlayerEntity, Triple<ServerBossBar, ItemStack?, Ref.IntRef>> = mutableMapOf()
 
     object BossBarDisplay {
         private const val length = 100
@@ -61,7 +63,7 @@ object ProgressDisplay {
         }
 
         fun show(player: ServerPlayerEntity, accuracy: Int, progress: Int): ServerBossBar {
-            val old = map[player.uuid]
+            val old = map[player]
 
             val percentage = progress.toFloat() / ForgeManager.Progress.DONE
             val name = progressString(accuracy)
@@ -97,7 +99,7 @@ object ProgressDisplay {
         fun addPlayer(player: ServerPlayerEntity) {
             sideBar.addPlayer(player)
         }
-        
+
         fun removePlayer(player: ServerPlayerEntity) {
             sideBar.removePlayer(player)
         }
@@ -107,17 +109,15 @@ object ProgressDisplay {
     private const val actionBarKey = "$anvilKey.message.actionBar"
 
     private fun tick(server: MinecraftServer) {
-        val toRemove: MutableList<UUID> = mutableListOf()
+        val toRemove: MutableList<ServerPlayerEntity> = mutableListOf()
 
-        map.forEach { (uuid, triple) ->
+        map.forEach { (player, triple) ->
             val age = triple.third.apply { element++ }
 
             if (age.element >= 60) {
-                server.playerManager.getPlayer(uuid)?.let {
-                    SideBarDisplay.removePlayer(it)
-                }
+                SideBarDisplay.removePlayer(player)
                 triple.first.clearPlayers()
-                toRemove += uuid
+                toRemove += player
             }
         }
 
@@ -146,6 +146,6 @@ object ProgressDisplay {
             ), true
         )
 
-        map[player.uuid] = Triple(bossBar, itemStack, Ref.IntRef().apply { element = 0 })
+        map[player] = Triple(bossBar, itemStack, Ref.IntRef().apply { element = 0 })
     }
 }

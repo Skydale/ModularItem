@@ -2,6 +2,7 @@ package io.github.mg138.modular.crafting.forge
 
 import io.github.mg138.modular.crafting.inventory.GuiInventory
 import io.github.mg138.modular.item.ingredient.impl.Quality
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
@@ -26,11 +27,11 @@ object ForgeManager {
 
     private val DEFAULT_PAIR = Accuracy.PERFECT to 0
 
-    private val map: MutableMap<UUID, Pair<Int, Int>> = mutableMapOf()
+    private val map: MutableMap<ServerPlayerEntity, Pair<Int, Int>> = mutableMapOf()
 
-    fun remove(player: ServerPlayerEntity) = map.remove(player.uuid)
+    fun remove(player: ServerPlayerEntity) = map.remove(player)
 
-    operator fun get(player: ServerPlayerEntity) = map.getOrPut(player.uuid) { DEFAULT_PAIR }
+    operator fun get(player: ServerPlayerEntity) = map.getOrPut(player) { DEFAULT_PAIR }
 
     fun processResult(player: ServerPlayerEntity, inventory: GuiInventory, result: ActionResult) {
         if (result == ActionResult.SUCCESS) {
@@ -65,7 +66,7 @@ object ForgeManager {
         modifier: Int,
         undo: Boolean
     ): ActionResult {
-        val (accuracy, progress) = map.getOrPut(player.uuid) { DEFAULT_PAIR }
+        val (accuracy, progress) = map.getOrPut(player) { DEFAULT_PAIR }
 
         val accuracyD = ((1 / accuracy.toDouble()) * modifier).roundToInt()
 
@@ -91,7 +92,7 @@ object ForgeManager {
             return ActionResult.FAIL
         }
 
-        map[player.uuid] = new
+        map[player] = new
 
         if (new.second >= Progress.DONE) {
             player.playSound(SoundEvents.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 0.5F, 1.5F)

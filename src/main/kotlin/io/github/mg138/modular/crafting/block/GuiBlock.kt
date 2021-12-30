@@ -27,7 +27,7 @@ abstract class GuiBlock(
     val id: Identifier,
     private val vanillaBlock: Block
 ) : Block(FabricBlockSettings.copy(vanillaBlock)), PolymerBlock {
-    private val map: MutableMap<UUID, GuiInventory> = mutableMapOf()
+    private val map: MutableMap<ServerPlayerEntity, GuiInventory> = mutableMapOf()
 
     abstract fun createGui(player: ServerPlayerEntity): Gui
     abstract fun createInventory(block: GuiBlock, gui: Gui, player: ServerPlayerEntity): GuiInventory
@@ -41,7 +41,7 @@ abstract class GuiBlock(
         hit: BlockHitResult
     ): ActionResult {
         if (!world.isClient() && player is ServerPlayerEntity) {
-            val inventory = map.computeIfAbsent(player.uuid) {
+            val inventory = map.computeIfAbsent(player) {
                 val gui = createGui(player)
 
                 createInventory(this, gui, player).also {
@@ -57,7 +57,7 @@ abstract class GuiBlock(
 
     override fun getPolymerBlock(state: BlockState?) = vanillaBlock
 
-    fun inventory(player: ServerPlayerEntity) = map[player.uuid]
+    fun inventory(player: ServerPlayerEntity) = map[player]
 
     fun validRecipe(player: ServerPlayerEntity): Boolean {
         return inventory(player)?.validRecipe() ?: false
@@ -66,8 +66,8 @@ abstract class GuiBlock(
     fun register() {
         Registry.register(Registry.BLOCK, id, this)
         Registry.register(Registry.ITEM, id, PolymerBlockItem(this, FabricItemSettings(), vanillaBlock.asItem()))
-        ServerPlayConnectionEvents.DISCONNECT.register { handler, server ->
-            map.remove(handler.player.uuid)
+        ServerPlayConnectionEvents.DISCONNECT.register { handler, _ ->
+            map.remove(handler.player)
         }
     }
 }
