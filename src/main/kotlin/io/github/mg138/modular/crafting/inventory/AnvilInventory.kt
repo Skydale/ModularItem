@@ -23,32 +23,31 @@ class AnvilInventory(
     }
 
     override fun update() {
-       world?.let { world ->
-            player?.let { player ->
-                val match = world.recipeManager.getFirstMatch(AnvilRecipe.ANVIL, this, world)
+        player()?.let { player ->
+            val world = player.world
+            val match = world.recipeManager.getFirstMatch(AnvilRecipe.ANVIL, this, world)
 
-                validRecipe = match.isPresent
+            validRecipe = match.isPresent
 
-                if (match.isPresent) {
-                    val matchedRecipe = match.get()
+            if (match.isPresent) {
+                val matchedRecipe = match.get()
 
-                    if (block is LeveledBlock && block.level >= matchedRecipe.level) {
-                        val matchedOutput = matchedRecipe.output.item
+                if (block is LeveledBlock && block.level >= matchedRecipe.level) {
+                    val matchedOutput = matchedRecipe.output.item
 
-                        if (matchedOutput !is ModularItem) {
-                            throw IllegalArgumentException("Output ${matchedRecipe.output.item} in recipe ${matchedRecipe.id} is not a ModularItem!")
-                        }
-                        output = matchedOutput
-
-                        ForgeManager.show(player, player.mainHandStack, this)
-                        return
-                    } else {
-                        player.sendMessage(LEVEL_TOO_LOW_TEXT, false)
-                        player.playSound(SoundEvents.ENTITY_VILLAGER_NO, SoundCategory.BLOCKS, 0.5F, 0.7F)
+                    if (matchedOutput !is ModularItem) {
+                        throw IllegalArgumentException("Output ${matchedRecipe.output.item} in recipe ${matchedRecipe.id} is not a ModularItem!")
                     }
+                    output = matchedOutput
+
+                    ForgeManager.show(player, player.mainHandStack, this)
+                    return
+                } else {
+                    player.sendMessage(LEVEL_TOO_LOW_TEXT, false)
+                    player.playSound(SoundEvents.ENTITY_VILLAGER_NO, SoundCategory.BLOCKS, 0.5F, 0.7F)
                 }
-                ForgeManager.remove(player)
             }
-       }
+            ForgeManager.remove(player)
+        }
     }
 }

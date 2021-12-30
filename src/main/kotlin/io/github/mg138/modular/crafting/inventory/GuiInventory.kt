@@ -17,11 +17,7 @@ import java.util.*
 abstract class GuiInventory(
     val block: GuiBlock, val gui: Gui, val playerManager: PlayerManager, val uuid: UUID, width: Int, height: Int
 ) : CraftingInventory(FakeScreenHandler(gui), width, height) {
-    val player
-        get() = playerManager.getPlayer(uuid)
-    
-    protected val world
-        get() = player?.world
+    fun player() = playerManager.getPlayer(uuid)
 
     protected var validRecipe = false
     fun validRecipe() = validRecipe

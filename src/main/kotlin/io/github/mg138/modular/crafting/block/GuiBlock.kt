@@ -5,7 +5,10 @@ import eu.pb4.polymer.api.item.PolymerBlockItem
 import io.github.mg138.modular.crafting.gui.Gui
 import io.github.mg138.modular.crafting.inventory.GuiInventory
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
@@ -63,5 +66,8 @@ abstract class GuiBlock(
     fun register() {
         Registry.register(Registry.BLOCK, id, this)
         Registry.register(Registry.ITEM, id, PolymerBlockItem(this, FabricItemSettings(), vanillaBlock.asItem()))
+        ServerPlayConnectionEvents.DISCONNECT.register { handler, server ->
+            map.remove(handler.player.uuid)
+        }
     }
 }
