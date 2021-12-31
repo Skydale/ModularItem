@@ -45,8 +45,8 @@ dependencies {
     val polymerVersion: String by project
     modImplementation("eu.pb4:polymer:$polymerVersion")
 
-    //val sguiVersion: String by project
-    //modImplementation("eu.pb4:sgui:$sguiVersion")
+    val sguiVersion: String by project
+    modImplementation("eu.pb4:sgui:$sguiVersion")
 
     modImplementation("me.lucko:fabric-permissions-api:0.1-SNAPSHOT")
 
