@@ -3,6 +3,7 @@ package io.github.mg138.modular.item.modular
 import io.github.mg138.bookshelf.item.BookItem
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.modular.item.ingredient.Ingredient
+import io.github.mg138.modular.item.modular.impl.*
 import io.github.mg138.modular.item.modular.util.ModularItemUtil
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
@@ -18,7 +19,7 @@ abstract class ModularItem(
     id: Identifier,
     bookItemSettings: BookItemSettings,
     settings: Settings, vanillaItem: Item
-) : BookItem(id, bookItemSettings, settings, vanillaItem) {
+) : BookItem(id, bookItemSettings, settings.maxCount(1), vanillaItem) {
     override fun register() {
         super.register()
         ModularItemManager.add(this)
@@ -63,8 +64,14 @@ abstract class ModularItem(
         const val DATA_KEY = "data"
 
         fun register() {
-            TestModularItem.register()
             ModularSword.register()
+            ModularHelmet.register()
+            ModularChestplate.register()
+            ModularLeggings.register()
+            ModularBoots.register()
+            ModularNecklace.register()
+            ModularBracelet.register()
+            ModularRing.register()
         }
     }
 }

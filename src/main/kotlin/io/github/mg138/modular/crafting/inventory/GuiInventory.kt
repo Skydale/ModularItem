@@ -42,7 +42,7 @@ abstract class GuiInventory(
 
     fun consumeItems() {
         for (i in 0 until size()) {
-            getStack(i).count--
+            getStack(i).decrement(1)
         }
     }
 
