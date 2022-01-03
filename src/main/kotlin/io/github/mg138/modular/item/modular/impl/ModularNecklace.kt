@@ -9,7 +9,7 @@ import io.github.mg138.player.data.ArmorType
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.item.Items
 
-object ModularNecklace : ModularStatedItem(
+object ModularNecklace : ModularArmor(
     Main.modId - "modular_necklace",
     BookItemSettings(false), FabricItemSettings(),
     Items.STRING

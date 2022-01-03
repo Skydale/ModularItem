@@ -9,7 +9,7 @@ import io.github.mg138.player.data.ArmorType
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.item.Items
 
-object ModularLeggings : ModularStatedItem(
+object ModularLeggings : ModularArmor(
     Main.modId - "modular_leggings",
     BookItemSettings(false), FabricItemSettings(),
     Items.IRON_LEGGINGS

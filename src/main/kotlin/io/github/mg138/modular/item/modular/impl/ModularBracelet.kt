@@ -9,7 +9,7 @@ import io.github.mg138.player.data.ArmorType
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.item.Items
 
-object ModularBracelet : ModularStatedItem(
+object ModularBracelet : ModularArmor(
     Main.modId - "modular_bracelet",
     BookItemSettings(false), FabricItemSettings(),
     Items.MUSIC_DISC_CAT

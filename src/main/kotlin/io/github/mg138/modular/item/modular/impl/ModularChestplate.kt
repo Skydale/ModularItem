@@ -9,7 +9,7 @@ import io.github.mg138.player.data.ArmorType
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.item.Items
 
-object ModularChestplate : ModularStatedItem(
+object ModularChestplate : ModularArmor(
     Main.modId - "modular_chestplate",
     BookItemSettings(false), FabricItemSettings(),
     Items.IRON_CHESTPLATE
