@@ -2,7 +2,7 @@ package io.github.mg138.modular.crafting.inventory
 
 import io.github.mg138.modular.Main
 import io.github.mg138.modular.crafting.block.GuiBlock
-import io.github.mg138.modular.crafting.block.anvil.LeveledBlock
+import io.github.mg138.modular.crafting.block.LeveledBlock
 import io.github.mg138.modular.crafting.forge.ForgeManager
 import io.github.mg138.modular.crafting.recipe.AnvilRecipe
 import io.github.mg138.modular.item.modular.ModularItem

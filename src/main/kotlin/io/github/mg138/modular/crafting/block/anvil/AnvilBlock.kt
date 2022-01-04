@@ -1,5 +1,6 @@
 package io.github.mg138.modular.crafting.block.anvil
 
+import io.github.mg138.modular.crafting.block.LeveledBlock
 import io.github.mg138.modular.crafting.block.GuiBlock
 import io.github.mg138.modular.crafting.block.anvil.impl.BronzeAnvilBlock
 import io.github.mg138.modular.crafting.block.anvil.impl.IronAnvilBlock

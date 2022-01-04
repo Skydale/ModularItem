@@ -19,8 +19,12 @@ abstract class ModularStatedItem(
     override fun getStatMap(itemStack: ItemStack?) = ModularItemUtil.getStatMap(itemStack)
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        tooltip.addAll(getStatMap(stack).lores())
-        tooltip.add(LiteralText.EMPTY)
+        val lores = getStatMap(stack).lores()
+        if (lores.isNotEmpty()) {
+            tooltip.addAll(lores)
+            tooltip.add(LiteralText.EMPTY)
+        }
+
         super.appendTooltip(stack, world, tooltip, context)
     }
 }

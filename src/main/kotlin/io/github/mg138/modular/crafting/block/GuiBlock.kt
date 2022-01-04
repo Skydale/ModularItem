@@ -59,7 +59,7 @@ abstract class GuiBlock(
         return inventory(player)?.validRecipe() ?: false
     }
 
-    fun register() {
+    open fun register() {
         Registry.register(Registry.BLOCK, id, this)
         Registry.register(Registry.ITEM, id, PolymerBlockItem(this, FabricItemSettings(), vanillaBlock.asItem()))
     }

@@ -3,11 +3,15 @@
   "modular_item.gui.modular_item.iron_anvil_gui.title": "Iron Anvil:",
 
   "modular_item.anvil.message.level_too_low": "§cAnvil level is too low for this recipe!",
-  "modular_item.anvil.message.actionBar": "§rLeft/Right click to forge - %s§r - Hold shift to undo progress.",
+  "modular_item.anvil.message.actionBar": "§rLeft/Right click to forge - %s§r - Sneak to undo progress",
   "modular_item.anvil.message.sideBar.title": "§aTips:",
   "modular_item.anvil.message.sideBar": "§eTry to land the last hit on middle!",
 
   "item.modular_item.modular_sword": "Modular Sword",
+  "item.modular_item.modular_sword.lore1": "A sword.",
+  "item.modular_item.modular_sword.lore2": "",
+  "item.modular_item.modular_sword.lore3": "",
+
   "item.modular_item.modular_helmet": "Modular Helmet",
   "item.modular_item.modular_chestplate": "Modular Chestplate",
   "item.modular_item.modular_leggings": "Modular Leggings",
@@ -15,11 +19,6 @@
   "item.modular_item.modular_necklace": "Modular Necklace",
   "item.modular_item.modular_bracelet": "Modular Bracelet",
   "item.modular_item.modular_ring": "Modular Ring",
-
-  "item.modular_item.modular_iron_blade": "Iron Blade Part",
-  "modular_item.ingredient.modular_item.iron_blade": "§7Iron Blade",
-
-  "modular_item.ingredient.modular_item.modular_iron_blade": "§7Iron Blade Part",
 
   "modular_item.ingredient.modular_item.quality": "§7Quality: %s"
 }

@@ -1,0 +1,24 @@
+{
+  "modular_item.gui.modular_item.bronze_anvil_gui.title": "青銅砧:",
+  "modular_item.gui.modular_item.iron_anvil_gui.title": "鐵砧:",
+
+  "modular_item.anvil.message.level_too_low": "§c鐵砧等級太低，無法製作此配方！",
+  "modular_item.anvil.message.actionBar": "§r左/右鍵敲擊 - %s§r - 蹲下進度往回",
+  "modular_item.anvil.message.sideBar.title": "§a建議:",
+  "modular_item.anvil.message.sideBar": "§e試著讓最後一下落在中間！",
+
+  "item.modular_item.modular_sword": "組合劍",
+  "item.modular_item.modular_sword.lore1": "一把劍。",
+  "item.modular_item.modular_sword.lore2": "",
+  "item.modular_item.modular_sword.lore3": "",
+
+  "item.modular_item.modular_helmet": "Modular Helmet",
+  "item.modular_item.modular_chestplate": "Modular Chestplate",
+  "item.modular_item.modular_leggings": "Modular Leggings",
+  "item.modular_item.modular_boots": "Modular Boots",
+  "item.modular_item.modular_necklace": "Modular Necklace",
+  "item.modular_item.modular_bracelet": "Modular Bracelet",
+  "item.modular_item.modular_ring": "Modular Ring",
+
+  "modular_item.ingredient.modular_item.quality": "§7品質: %s"
+}

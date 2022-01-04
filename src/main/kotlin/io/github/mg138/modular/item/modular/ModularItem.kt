@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
@@ -19,7 +20,7 @@ abstract class ModularItem(
     id: Identifier,
     bookItemSettings: BookItemSettings,
     settings: Settings, vanillaItem: Item
-) : BookItem(id, bookItemSettings, settings.maxCount(1), vanillaItem) {
+) : BookItem(id, bookItemSettings, settings, vanillaItem) {
     override fun register() {
         super.register()
         ModularItemManager.add(this)
@@ -52,8 +53,8 @@ abstract class ModularItem(
     ) {
         super.appendTooltip(stack, world, tooltip, context)
 
-        ModularItemUtil.readIngredients(stack) { ingredient, data, level ->
-            ingredient.appendTooltip(level, stack, data, tooltip)
+        ModularItemUtil.readIngredientsShallow(stack) { ingredient, data, level ->
+            ingredient.appendTooltip(level + 1, stack, data, tooltip)
         }
     }
 

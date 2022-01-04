@@ -26,11 +26,6 @@ interface Ingredient {
         data: NbtCompound,
         tooltip: MutableList<Text>,
     ) {
-        val stringBuilder = StringBuilder()
-        for (i in 0 until level) {
-            stringBuilder.append(" ")
-        }
-
         val padding = LiteralText("".padEnd(level * 2, ' '))
 
         tooltip.add(padding.append(lore(data)))
