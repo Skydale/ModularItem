@@ -2,6 +2,8 @@ package io.github.mg138.modular.item.ingredient.impl
 
 import io.github.mg138.bookshelf.stat.data.MutableStats
 import io.github.mg138.bookshelf.stat.data.StatMap
+import io.github.mg138.bookshelf.stat.stat.Stat
+import io.github.mg138.bookshelf.utils.StatUtil
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StatedIngredient
@@ -44,7 +46,7 @@ object Quality : StatedIngredient {
         val m = quality / 100.0
 
         mutableStats.forEach { (type, stat) ->
-            mutableStats.putStat(type, stat * m)
+            mutableStats.putStat(type, stat.modifier(m))
         }
     }
 

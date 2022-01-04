@@ -4,6 +4,7 @@ import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import io.github.mg138.modular.crafting.gui.Gui
 import io.github.mg138.modular.crafting.inventory.GuiInventory
+import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.screen.slot.Slot
@@ -20,7 +21,10 @@ abstract class TableGui(player: ServerPlayerEntity, inventory: GuiInventory) : G
     }
 
     override fun update() {
-        if (!inventory.validRecipe()) return
+        if (!inventory.validRecipe()) {
+            setSlot(OUTPUT, ItemStack.EMPTY)
+            return
+        }
 
         inventory.craft().let { craft ->
             val element = GuiElementBuilder.from(craft)
