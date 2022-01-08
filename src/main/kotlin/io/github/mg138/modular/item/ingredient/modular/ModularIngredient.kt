@@ -1,11 +1,9 @@
 package io.github.mg138.modular.item.ingredient.modular
 
 import io.github.mg138.bookshelf.item.BookItemSettings
+import io.github.mg138.bookshelf.stat.data.Stats
 import io.github.mg138.modular.item.ingredient.Ingredient
 import io.github.mg138.modular.item.ingredient.StatedIngredient
-import io.github.mg138.modular.item.ingredient.modular.impl.ModularIronBlade
-import io.github.mg138.modular.item.ingredient.modular.impl.ModularSpiderEye
-import io.github.mg138.modular.item.ingredient.modular.impl.ModularZombieHead
 import io.github.mg138.modular.item.modular.ModularItem
 import io.github.mg138.modular.item.modular.util.ModularItemUtil
 import net.minecraft.client.item.TooltipContext
@@ -24,6 +22,8 @@ abstract class ModularIngredient(
     private val ingredients: List<Ingredient>
 ) : ModularItem(id, bookItemSettings, settings, vanillaItem), StatedIngredient {
     private fun getStatMap(itemStack: ItemStack?) = ModularItemUtil.getStatMap(itemStack)
+
+    override fun getStats(nbt: NbtCompound) =  ModularItemUtil.getStatMap(nbt, this)
 
     override val updateStatPriority = 0
 
@@ -64,9 +64,6 @@ abstract class ModularIngredient(
 
     companion object {
         fun register() {
-            ModularSpiderEye.register()
-            ModularZombieHead.register()
-            ModularIronBlade.register()
         }
     }
 }

@@ -11,7 +11,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 
 object ModularItemUtil {
-    private val cacheStatMap: MutableMap<NbtCompound, StatMap> = mutableMapOf()
+    private val cacheStatMap: MutableMap<Identifier, MutableMap<NbtCompound, StatMap>> = mutableMapOf()
 
     private fun readIngredient(nbt: NbtCompound, level: Int = 0, callback: (Ingredient, NbtCompound, Int) -> Unit) {
         if (!nbt.contains(ModularItem.ID_KEY)) return
@@ -60,8 +60,10 @@ object ModularItemUtil {
         readIngredients(itemStack.orCreateNbt, level, callback)
     }
 
-    fun getStatMap(data: NbtCompound): StatMap {
-        return cacheStatMap.getOrPut(data) {
+    fun getStatMap(data: NbtCompound, item: ModularItem): StatMap {
+        val map = cacheStatMap.getOrPut(item.id) { mutableMapOf() }
+
+        return map.getOrPut(data) {
             StatMap().apply {
                 val list: MutableList<Pair<StatedIngredient, NbtCompound>> = mutableListOf()
 
@@ -70,6 +72,13 @@ object ModularItemUtil {
                         list.add(ingredient to data)
                     }
                 }
+
+                item.getDefaultIngredients().forEach {
+                    if (it is StatedIngredient) {
+                        list.add(it to NbtCompound())
+                    }
+                }
+
                 list.sortedBy { it.first.updateStatPriority }
                     .forEach { (ingredient, data) ->
                         ingredient.updateStats(this, data)
@@ -80,7 +89,9 @@ object ModularItemUtil {
 
     fun getStatMap(itemStack: ItemStack?): StatMap {
         if (itemStack == null) return StatMap()
+        val item = itemStack.item
+        if (item !is ModularItem) return StatMap()
 
-        return getStatMap(itemStack.orCreateNbt)
+        return getStatMap(itemStack.orCreateNbt, item)
     }
 }

@@ -2,7 +2,9 @@ package io.github.mg138.modular.item.modular
 
 import io.github.mg138.bookshelf.item.BookItem
 import io.github.mg138.bookshelf.item.BookItemSettings
+import io.github.mg138.bookshelf.item.SimpleBookItem
 import io.github.mg138.modular.item.ingredient.Ingredient
+import io.github.mg138.modular.item.ingredient.modular.ModularIngredient
 import io.github.mg138.modular.item.modular.impl.*
 import io.github.mg138.modular.item.modular.util.ModularItemUtil
 import net.minecraft.client.item.TooltipContext
@@ -11,23 +13,27 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.tag.ItemTags
 import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
 abstract class ModularItem(
     id: Identifier,
     bookItemSettings: BookItemSettings,
     settings: Settings, vanillaItem: Item
-) : BookItem(id, bookItemSettings, settings, vanillaItem) {
+) : SimpleBookItem(id, bookItemSettings, settings, vanillaItem) {
+    open fun getDefaultIngredients(): List<Ingredient> = listOf()
+
     override fun register() {
         super.register()
         ModularItemManager.add(this)
     }
 
-    open fun makeItemStack(ingredients: Iterable<Pair<Ingredient, NbtCompound>>): ItemStack =
-        this.defaultStack.apply {
+    open fun makeItemStack(ingredients: Iterable<Pair<Ingredient, NbtCompound>>): ItemStack {
+        return this.defaultStack.apply {
             val nbt = orCreateNbt
             val modularItemNbt = NbtCompound()
 
@@ -44,6 +50,7 @@ abstract class ModularItem(
 
             nbt.put(MODULAR_KEY, modularItemNbt)
         }
+    }
 
     override fun appendTooltip(
         stack: ItemStack,
@@ -54,7 +61,7 @@ abstract class ModularItem(
         super.appendTooltip(stack, world, tooltip, context)
 
         ModularItemUtil.readIngredientsShallow(stack) { ingredient, data, level ->
-            ingredient.appendTooltip(level + 1, stack, data, tooltip)
+            ingredient.appendTooltip(level, stack, data, tooltip)
         }
     }
 
@@ -65,7 +72,6 @@ abstract class ModularItem(
         const val DATA_KEY = "data"
 
         fun register() {
-            ModularSword.register()
             ModularHelmet.register()
             ModularChestplate.register()
             ModularLeggings.register()
@@ -73,6 +79,12 @@ abstract class ModularItem(
             ModularNecklace.register()
             ModularBracelet.register()
             ModularRing.register()
+            ModularSword.register()
+            ModularDagger.register()
+            ModularSpear.register()
+            ModularBow.register()
+            ModularCrossbow.register()
+            ModularLongbow.register()
         }
     }
 }

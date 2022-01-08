@@ -6,9 +6,7 @@ import io.github.mg138.modular.item.modular.util.ModularItemUtil
 import net.minecraft.nbt.NbtCompound
 
 interface StatedIngredient : Ingredient {
-    fun getStats(nbt: NbtCompound): Stats {
-        return ModularItemUtil.getStatMap(nbt)
-    }
+    fun getStats(nbt: NbtCompound): Stats
 
     val updateStatPriority: Int
 

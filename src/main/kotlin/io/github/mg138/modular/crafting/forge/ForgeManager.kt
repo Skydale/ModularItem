@@ -8,6 +8,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
+import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -23,7 +24,12 @@ object ForgeManager {
         const val DONE = 100
     }
 
-    private val DEFAULT_PAIR = Accuracy.PERFECT to 0
+    private val rand = Random()
+
+    private fun randStart() = (10 * (rand.nextDouble() - 0.5)).toInt()
+
+    private val DEFAULT_PAIR
+        get() = (randStart() + Accuracy.PERFECT) to 0
 
     private val map: MutableMap<ServerPlayerEntity, Pair<Int, Int>> = mutableMapOf()
 

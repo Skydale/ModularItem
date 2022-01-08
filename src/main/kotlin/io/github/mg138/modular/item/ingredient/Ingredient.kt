@@ -1,9 +1,6 @@
 package io.github.mg138.modular.item.ingredient
 
-import io.github.mg138.modular.item.ingredient.impl.IronBlade
-import io.github.mg138.modular.item.ingredient.impl.Quality
-import io.github.mg138.modular.item.ingredient.impl.SpiderEye
-import io.github.mg138.modular.item.ingredient.impl.ZombieHead
+import io.github.mg138.modular.item.ingredient.impl.*
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.LiteralText
@@ -41,7 +38,12 @@ interface Ingredient {
             SpiderEye.register()
             ZombieHead.register()
             Quality.register()
-            IronBlade.register()
+            SwordType.register()
+            SpearType.register()
+            DaggerType.register()
+            BowType.register()
+            CrossbowType.register()
+            LongbowType.register()
         }
     }
 }
