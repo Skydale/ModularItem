@@ -4,7 +4,6 @@ import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.item.type.SimpleMeleeWeapon
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
-import io.github.mg138.modular.item.ingredient.StatedIngredient
 import io.github.mg138.modular.item.ingredient.impl.SwordType
 import io.github.mg138.modular.item.modular.ModularStatedItem
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings

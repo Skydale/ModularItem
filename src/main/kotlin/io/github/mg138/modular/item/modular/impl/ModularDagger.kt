@@ -4,16 +4,13 @@ import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.item.type.SimpleMeleeWeapon
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
-import io.github.mg138.modular.item.ingredient.StatedIngredient
 import io.github.mg138.modular.item.ingredient.impl.DaggerType
-import io.github.mg138.modular.item.ingredient.impl.SwordType
 import io.github.mg138.modular.item.modular.ModularStatedItem
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 
 object ModularDagger : ModularStatedItem(

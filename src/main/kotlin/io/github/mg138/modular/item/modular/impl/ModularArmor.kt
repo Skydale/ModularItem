@@ -10,5 +10,4 @@ abstract class ModularArmor(
     id: Identifier,
     bookItemSettings: BookItemSettings,
     settings: Settings, vanillaItem: Item
-) : ModularStatedItem(id, bookItemSettings, settings, vanillaItem), Armor {
-}
+) : ModularStatedItem(id, bookItemSettings, settings, vanillaItem), Armor

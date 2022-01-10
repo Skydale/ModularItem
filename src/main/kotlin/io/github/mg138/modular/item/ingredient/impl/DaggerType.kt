@@ -12,5 +12,4 @@ object DaggerType : StaticStatedIngredient(
     StatMap().apply {
         putStat(StatTypes.MiscTypes.ATTACK_DELAY, StatSingle(4.0))
     }
-){
-}
+)

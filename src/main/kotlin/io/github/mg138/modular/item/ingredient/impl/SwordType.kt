@@ -1,6 +1,5 @@
 package io.github.mg138.modular.item.ingredient.impl
 
-import io.github.mg138.bookshelf.item.type.SimpleMeleeWeapon
 import io.github.mg138.bookshelf.stat.data.StatMap
 import io.github.mg138.bookshelf.stat.stat.StatSingle
 import io.github.mg138.bookshelf.stat.type.StatTypes

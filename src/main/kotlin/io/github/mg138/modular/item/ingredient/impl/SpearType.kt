@@ -12,5 +12,4 @@ object SpearType : StaticStatedIngredient(
     StatMap().apply {
         putStat(StatTypes.MiscTypes.ATTACK_DELAY, StatSingle(13.0))
     }
-){
-}
+)
