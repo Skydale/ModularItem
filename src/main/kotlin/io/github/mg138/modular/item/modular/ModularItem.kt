@@ -85,6 +85,9 @@ abstract class ModularItem(
             ModularBow.register()
             ModularCrossbow.register()
             ModularLongbow.register()
+            ModularWand.register()
+            ModularLongWand.register()
+            ModularTrident.register()
         }
     }
 }

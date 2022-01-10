@@ -44,6 +44,9 @@ interface Ingredient {
             BowType.register()
             CrossbowType.register()
             LongbowType.register()
+            WandType.register()
+            LongWandType.register()
+            TridentType.register()
         }
     }
 }
