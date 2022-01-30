@@ -8,8 +8,8 @@ import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StaticStatedIngredient
 
 object TridentType : StaticStatedIngredient(
-    Main.modId - "trident_type",
+    Main.skydale - "trident_type",
     StatMap().apply {
-        putStat(StatTypes.MiscTypes.ATTACK_DELAY, StatSingle(27.0))
+        putStat(StatTypes.MiscTypes.AttackDelay, StatSingle(27.0))
     }
 )

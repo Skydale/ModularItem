@@ -36,7 +36,7 @@ class AnvilInventory(
                 }
                 output = matchedOutput
 
-                ForgeManager.show(player, player.mainHandStack, this)
+                ForgeManager.show(getIngredients(), player, player.mainHandStack, this)
                 return
             } else {
                 player.sendMessage(LEVEL_TOO_LOW_TEXT, false)

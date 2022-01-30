@@ -1,6 +1,7 @@
 package io.github.mg138.modular.crafting.forge
 
 import io.github.mg138.modular.crafting.inventory.GuiInventory
+import io.github.mg138.modular.item.ingredient.Ingredient
 import io.github.mg138.modular.item.ingredient.impl.Quality
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -59,8 +60,8 @@ object ForgeManager {
         }
     }
 
-    fun show(player: ServerPlayerEntity, itemStack: ItemStack?, inventory: GuiInventory) {
-        ProgressDisplay.show(player, itemStack, inventory, this[player])
+    fun show(list: Iterable<Pair<Ingredient, NbtCompound>>, player: ServerPlayerEntity, itemStack: ItemStack?, inventory: GuiInventory) {
+        ProgressDisplay.show(list, player, itemStack, inventory, this[player])
     }
 
     private fun forge(
@@ -89,7 +90,8 @@ object ForgeManager {
             return ActionResult.PASS
         }
 
-        ProgressDisplay.show(player, itemStack, inventory, new)
+        // todo cache
+        ProgressDisplay.show(inventory.getIngredients(), player, itemStack, inventory, new)
 
         if (new.first <= Accuracy.MIN || new.first >= Accuracy.MAX) {
             player.playSound(SoundEvents.BLOCK_ANVIL_DESTROY, SoundCategory.BLOCKS, 0.5F, 0.5F)

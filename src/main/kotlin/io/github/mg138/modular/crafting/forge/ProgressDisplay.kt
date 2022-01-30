@@ -2,11 +2,13 @@ package io.github.mg138.modular.crafting.forge
 
 import eu.pb4.sidebars.api.Sidebar
 import io.github.mg138.modular.crafting.inventory.GuiInventory
+import io.github.mg138.modular.item.ingredient.Ingredient
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.minecraft.entity.boss.BossBar
 import net.minecraft.entity.boss.ServerBossBar
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.LiteralText
@@ -133,7 +135,7 @@ object ProgressDisplay {
         }
     }
 
-    fun show(player: ServerPlayerEntity, itemStack: ItemStack?, inventory: GuiInventory, pair: Pair<Int, Int>) {
+    fun show(list: Iterable<Pair<Ingredient, NbtCompound>>, player: ServerPlayerEntity, itemStack: ItemStack?, inventory: GuiInventory, pair: Pair<Int, Int>) {
         val (accuracy, progress) = pair
 
         val bossBar = BossBarDisplay.show(player, accuracy, progress)
@@ -143,7 +145,7 @@ object ProgressDisplay {
         player.sendMessage(
             TranslatableText(
                 actionBarKey,
-                inventory.output().name
+                inventory.output().getName(list)
                     .copy()
                     .styled { it.withColor(Formatting.DARK_GREEN) }
             ), true

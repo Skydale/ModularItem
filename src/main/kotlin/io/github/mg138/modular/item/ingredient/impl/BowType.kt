@@ -8,8 +8,8 @@ import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StaticStatedIngredient
 
 object BowType : StaticStatedIngredient(
-    Main.modId - "bow_type",
+    Main.skydale - "bow_type",
     StatMap().apply {
-        putStat(StatTypes.MiscTypes.ATTACK_DELAY, StatSingle(10.0))
+        putStat(StatTypes.MiscTypes.AttackDelay, StatSingle(10.0))
     }
 )

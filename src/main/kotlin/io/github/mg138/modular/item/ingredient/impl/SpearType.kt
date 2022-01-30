@@ -8,8 +8,8 @@ import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StaticStatedIngredient
 
 object SpearType : StaticStatedIngredient(
-    Main.modId - "spear_type",
+    Main.skydale - "spear_type",
     StatMap().apply {
-        putStat(StatTypes.MiscTypes.ATTACK_DELAY, StatSingle(13.0))
+        putStat(StatTypes.MiscTypes.AttackDelay, StatSingle(13.0))
     }
 )

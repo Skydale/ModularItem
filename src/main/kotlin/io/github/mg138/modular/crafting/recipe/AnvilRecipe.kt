@@ -23,7 +23,7 @@ class AnvilRecipe(
     override fun getPolymerRecipe(input: Recipe<*>?): Recipe<*> = PolymerRecipe.createSmithingRecipe(input)
 
     companion object {
-        val ID = Main.modId - "anvil"
+        val ID = Main.skydale - "anvil"
 
         private val SERIALIZER = object : RecipeSerializer<AnvilRecipe> {
             override fun read(identifier: Identifier, jsonObject: JsonObject): AnvilRecipe {

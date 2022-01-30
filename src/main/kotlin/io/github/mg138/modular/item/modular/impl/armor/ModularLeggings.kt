@@ -1,4 +1,4 @@
-package io.github.mg138.modular.item.modular.impl
+package io.github.mg138.modular.item.modular.impl.armor
 
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.utils.minus
@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.item.Items
 
 object ModularLeggings : ModularArmor(
-    Main.modId - "modular_leggings",
+    Main.skydale - "modular_leggings",
     BookItemSettings(false), FabricItemSettings(),
     Items.IRON_LEGGINGS
 ), ArmorType.Legs

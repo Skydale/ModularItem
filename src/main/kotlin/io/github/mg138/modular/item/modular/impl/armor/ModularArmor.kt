@@ -1,4 +1,4 @@
-package io.github.mg138.modular.item.modular.impl
+package io.github.mg138.modular.item.modular.impl.armor
 
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.item.type.Armor

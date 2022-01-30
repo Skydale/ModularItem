@@ -21,9 +21,16 @@ abstract class ModularIngredient(
     settings: Settings, vanillaItem: Item,
     private val ingredients: List<Ingredient>
 ) : ModularItem(id, bookItemSettings, settings, vanillaItem), StatedIngredient {
-    private fun getStatMap(itemStack: ItemStack?) = ModularItemUtil.getStatMap(itemStack)
+    companion object {
+        fun register() {
+        }
+    }
 
-    override fun getStats(nbt: NbtCompound) =  ModularItemUtil.getStatMap(nbt, this)
+    override fun getName(list: Iterable<Pair<Ingredient, NbtCompound>>): Text {
+        return super.getName(list).copy().styled { it.withColor(color) }
+    }
+
+    override fun getStats(nbt: NbtCompound): Stats = ModularItemUtil.getStatMap(nbt, this)
 
     override val updateStatPriority = 0
 
@@ -34,26 +41,8 @@ abstract class ModularIngredient(
         return super.makeItemStack(list)
     }
 
-    override fun register() {
-        super<ModularItem>.register()
-        super<StatedIngredient>.register()
-
-        ModularIngredientManager.add(this)
-    }
-
-    //override fun appendTooltip(level: Int, itemStack: ItemStack, data: NbtCompound, tooltip: MutableList<Text>) {
-    //    //super<ModularItem>.appendTooltip(level, itemStack, data, tooltip)
-    //    tooltip.add(lore(data))
-//
-    //    super<StatedIngredient>.appendTooltip(level, itemStack, data, tooltip)
-    //    //ingredients.forEach {
-    //    //    val text = padding.copy()
-    //    //    tooltip.add(text.append(it.lore(data.getCompound(DATA_KEY))))
-    //    //}
-    //}
-
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        val lores = getStatMap(stack).lores()
+        val lores = this.getStats(stack.orCreateNbt).lores().toList()
         if (lores.isNotEmpty()) {
             tooltip.addAll(lores)
             tooltip.add(LiteralText.EMPTY)
@@ -62,8 +51,10 @@ abstract class ModularIngredient(
         super<ModularItem>.appendTooltip(stack, world, tooltip, context)
     }
 
-    companion object {
-        fun register() {
-        }
+    override fun register() {
+        super<ModularItem>.register()
+        super<StatedIngredient>.register()
+
+        ModularIngredientManager.add(this)
     }
 }

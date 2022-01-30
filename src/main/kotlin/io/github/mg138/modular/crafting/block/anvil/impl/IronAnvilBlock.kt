@@ -8,7 +8,7 @@ import io.github.mg138.modular.crafting.inventory.GuiInventory
 import net.minecraft.server.network.ServerPlayerEntity
 
 object IronAnvilBlock : AnvilBlock(
-    Main.modId - "iron_anvil_block"
+    Main.skydale - "iron_anvil_block"
 ){
     override fun createGui(player: ServerPlayerEntity, inventory: GuiInventory) = IronAnvilGui(player, inventory)
 

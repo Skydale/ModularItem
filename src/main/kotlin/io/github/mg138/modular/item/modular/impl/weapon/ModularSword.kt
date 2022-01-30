@@ -1,4 +1,4 @@
-package io.github.mg138.modular.item.modular.impl
+package io.github.mg138.modular.item.modular.impl.weapon
 
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.item.type.SimpleMeleeWeapon
@@ -14,13 +14,12 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 
 object ModularSword : ModularStatedItem(
-    Main.modId - "modular_sword",
-    BookItemSettings(false), FabricItemSettings(),
+    Main.skydale - "modular_sword",
+    BookItemSettings(true), FabricItemSettings(),
     Items.IRON_SWORD,
     listOf(SwordType)
 ), SimpleMeleeWeapon {
     override val range = 4.0
-
 
     override fun onLeftClick(player: ServerPlayerEntity, itemStack: ItemStack): Boolean {
         if (!super.onLeftClick(player, itemStack)) return false

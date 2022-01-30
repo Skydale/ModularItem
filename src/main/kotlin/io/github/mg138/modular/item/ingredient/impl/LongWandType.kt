@@ -8,8 +8,8 @@ import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StaticStatedIngredient
 
 object LongWandType : StaticStatedIngredient(
-    Main.modId - "long_wand_type",
+    Main.skydale - "long_wand_type",
     StatMap().apply {
-        putStat(StatTypes.MiscTypes.ATTACK_DELAY, StatSingle(17.0))
+        putStat(StatTypes.MiscTypes.AttackDelay, StatSingle(17.0))
     }
 )

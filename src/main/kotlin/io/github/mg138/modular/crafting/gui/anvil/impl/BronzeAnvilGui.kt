@@ -8,7 +8,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
 class BronzeAnvilGui(player: ServerPlayerEntity, inventory: GuiInventory) : AnvilGui(player, inventory) {
-    override val id: Identifier = Main.modId - "bronze_anvil_gui"
+    override val id: Identifier = Main.skydale - "bronze_anvil_gui"
 
     override val level = 0
 }

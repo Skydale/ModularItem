@@ -8,8 +8,8 @@ import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StaticStatedIngredient
 
 object SpiderEye : StaticStatedIngredient(
-    Main.modId - "spider_eye",
+    Main.skydale - "spider_eye",
     StatMap().apply {
-        putStat(StatTypes.DamageTypes.DAMAGE_AQUA, StatRange(100.0, 1000.0))
+        putStat(StatTypes.DamageTypes.DamageAqua, StatRange(100.0, 1000.0))
     }
 )

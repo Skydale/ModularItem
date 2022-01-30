@@ -2,10 +2,9 @@ package io.github.mg138.modular.item.ingredient.impl
 
 import io.github.mg138.bookshelf.stat.data.MutableStats
 import io.github.mg138.bookshelf.stat.data.StatMap
-import io.github.mg138.bookshelf.stat.stat.Stat
-import io.github.mg138.bookshelf.utils.StatUtil
 import io.github.mg138.bookshelf.utils.minus
 import io.github.mg138.modular.Main
+import io.github.mg138.modular.item.ingredient.Hide
 import io.github.mg138.modular.item.ingredient.StatedIngredient
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.LiteralText
@@ -13,8 +12,8 @@ import net.minecraft.text.Text
 import net.minecraft.text.TextColor
 import net.minecraft.text.TranslatableText
 
-object Quality : StatedIngredient {
-    override val id = Main.modId - "quality"
+object Quality : StatedIngredient, Hide {
+    override val id = Main.skydale - "quality"
 
     private const val qualityKey = "quality"
 
@@ -50,8 +49,8 @@ object Quality : StatedIngredient {
         }
     }
 
-    override fun lore(data: NbtCompound): Text {
-        val quality = getQuality(data)
+    override fun lore(nbt: NbtCompound): Text {
+        val quality = getQuality(nbt)
 
         return TranslatableText(loreKey, LiteralText(quality.toString()).styled { it.withColor(color(quality)) })
     }

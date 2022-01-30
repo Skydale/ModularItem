@@ -1,4 +1,4 @@
-package io.github.mg138.modular.item.modular.impl
+package io.github.mg138.modular.item.modular.impl.weapon
 
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.item.type.SimpleBow
@@ -14,7 +14,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 
 object ModularBow : ModularStatedItem(
-    Main.modId - "modular_bow",
+    Main.skydale - "modular_bow",
     BookItemSettings(false), FabricItemSettings(),
     Items.BOW,
     listOf(BowType)

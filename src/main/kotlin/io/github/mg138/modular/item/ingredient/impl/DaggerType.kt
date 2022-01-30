@@ -8,8 +8,8 @@ import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StaticStatedIngredient
 
 object DaggerType : StaticStatedIngredient(
-    Main.modId - "dagger_type",
+    Main.skydale - "dagger_type",
     StatMap().apply {
-        putStat(StatTypes.MiscTypes.ATTACK_DELAY, StatSingle(4.0))
+        putStat(StatTypes.MiscTypes.AttackDelay, StatSingle(4.0))
     }
 )

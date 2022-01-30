@@ -24,7 +24,7 @@ class TableRecipe(
     override fun getPolymerRecipe(input: Recipe<*>?): Recipe<*> = createCraftingRecipe(input)
 
     companion object {
-        val ID = Main.modId - "table"
+        val ID = Main.skydale - "table"
 
         private val SERIALIZER = object : RecipeSerializer<TableRecipe> {
             override fun read(identifier: Identifier, jsonObject: JsonObject): TableRecipe {

@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger
 @Suppress("UNUSED")
 object Main : DedicatedServerModInitializer {
     const val modId = "modular_item"
+    const val skydale = "skydale"
     private val logger: Logger = LogManager.getLogger(modId)
 
     override fun onInitializeServer() {

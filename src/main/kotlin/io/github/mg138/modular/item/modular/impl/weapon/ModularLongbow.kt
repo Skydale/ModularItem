@@ -1,4 +1,4 @@
-package io.github.mg138.modular.item.modular.impl
+package io.github.mg138.modular.item.modular.impl.weapon
 
 import io.github.mg138.bookshelf.item.BookItemSettings
 import io.github.mg138.bookshelf.item.type.SimpleBow
@@ -17,7 +17,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 
 object ModularLongbow : ModularStatedItem(
-    Main.modId - "modular_longbow",
+    Main.skydale - "modular_longbow",
     BookItemSettings(false), FabricItemSettings(),
     Items.BOW,
     listOf(LongbowType)

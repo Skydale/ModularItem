@@ -8,8 +8,8 @@ import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StaticStatedIngredient
 
 object LongbowType : StaticStatedIngredient(
-    Main.modId - "longbow_type",
+    Main.skydale - "longbow_type",
     StatMap().apply {
-        putStat(StatTypes.MiscTypes.ATTACK_DELAY, StatSingle(20.0))
+        putStat(StatTypes.MiscTypes.AttackDelay, StatSingle(20.0))
     }
 )

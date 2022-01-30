@@ -8,6 +8,6 @@ import io.github.mg138.modular.crafting.inventory.GuiInventory
 import net.minecraft.server.network.ServerPlayerEntity
 
 
-object SimpleTableBlock : TableBlock(Main.modId - "simple_table") {
+object SimpleTableBlock : TableBlock(Main.skydale - "simple_table") {
     override fun createGui(player: ServerPlayerEntity, inventory: GuiInventory) = SimpleTableGui(player, inventory)
 }

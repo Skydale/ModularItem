@@ -8,8 +8,8 @@ import io.github.mg138.modular.Main
 import io.github.mg138.modular.item.ingredient.StaticStatedIngredient
 
 object ZombieHead : StaticStatedIngredient(
-    Main.modId - "zombie_head",
+    Main.skydale - "zombie_head",
     StatMap().apply {
-        putStat(StatTypes.DamageTypes.DAMAGE_TERRA, StatRange(100.0, 1000.0))
+        putStat(StatTypes.DamageTypes.DamageTerra, StatRange(100.0, 1000.0))
     }
 )

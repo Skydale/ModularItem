@@ -8,7 +8,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
 class SimpleTableGui(player: ServerPlayerEntity, guiInventory: GuiInventory) : TableGui(player, guiInventory) {
-    override val id: Identifier = Main.modId - "simple_table_gui"
+    override val id: Identifier = Main.skydale - "simple_table_gui"
 
     override val level = 0
 }

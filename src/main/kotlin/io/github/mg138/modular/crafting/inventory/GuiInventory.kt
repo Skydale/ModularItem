@@ -46,8 +46,8 @@ abstract class GuiInventory(
         }
     }
 
-    fun craft(ingredients: Iterable<Pair<Ingredient, NbtCompound>> = listOf()): ItemStack {
-        val list: MutableList<Pair<Ingredient, NbtCompound>> = ingredients.toMutableList()
+    fun getIngredients(): Iterable<Pair<Ingredient, NbtCompound>> {
+        val list: MutableList<Pair<Ingredient, NbtCompound>> = mutableListOf()
 
         for (i in 0 until size()) {
             val itemStack = getStack(i)
@@ -56,6 +56,13 @@ abstract class GuiInventory(
                 list += item to itemStack.orCreateNbt
             }
         }
+        return list
+    }
+
+    fun craft(ingredients: Iterable<Pair<Ingredient, NbtCompound>> = listOf()): ItemStack {
+        val list = this.getIngredients().toMutableList()
+        list.addAll(ingredients)
+
         return output().makeItemStack(list)
     }
 }
