@@ -20,6 +20,7 @@ minecraft {}
 repositories {
     maven("https://maven.nucleoid.xyz")
     maven("https://oss.sonatype.org/content/repositories/snapshots")
+    maven("https://maven.shedaniel.me")
     mavenCentral()
 }
 
@@ -49,6 +50,8 @@ dependencies {
 
     val sidebarApiVersion: String by project
     modImplementation("eu.pb4:sidebar-api:$sidebarApiVersion")
+
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:7.2.425")
 
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 }
